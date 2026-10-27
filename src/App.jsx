@@ -34,6 +34,7 @@ const imageBase = 'https://images.unsplash.com'
 
 const navItems = [
   { label: 'Home', href: '#home' },
+  // { label: 'UAE Presence', href: '#uae-presence' },
   { label: 'About Us', href: '#about' },
   { label: 'Services', href: '#services' },
   { label: 'Industries', href: '#industries' },
@@ -219,12 +220,116 @@ function TrustStrip() {
   return <section className="trust-strip"><div className="container trust-grid">{trustItems.map(({ icon: Icon, title, detail }) => <div className="trust-item" key={title}><span className="icon-badge"><Icon size={20} /></span><span><strong>{title}</strong><small>{detail}</small></span></div>)}</div></section>
 }
 
+function UAEPresence() {
+  const highlights = [
+    { title: 'FTA Tax & VAT Compliant', detail: 'End-to-end UAE Corporate Tax (9%) & VAT filing support.' },
+    { title: 'Mainland & Freezones', detail: 'Tailored accounting for DMCC, DIFC, ADGM, DAFZA & Mainland.' },
+    { title: 'IFRS-Standard Reporting', detail: 'Audited financial reports adhering strictly to IFRS frameworks.' },
+    { title: 'UAE & India Delivery', detail: 'Dual-shore agility with localized advisory and offshore scale.' },
+  ]
+
+  return (
+    <section className="section uae-section" id="uae-presence">
+      <div className="container uae-grid">
+        <div className="uae-visual-col">
+          <div className="uae-locations-banner">
+            <span className="uae-pulse-dot" aria-hidden="true" />
+            <span>Dubai | Abu Dhabi | Sharjah | India</span>
+          </div>
+          <div className="uae-map-card">
+            <img
+              src="/images/uae-presence-map.jpg"
+              alt="Acetrix UAE and India Offices Footprint Map"
+              className="uae-map-image"
+              loading="lazy"
+            />
+            <div className="uae-map-overlay-badge">
+              <span className="overlay-pin-icon"><MapPin size={18} /></span>
+              <div>
+                <strong>Regional Footprint</strong>
+                <small>Dubai • Abu Dhabi • Sharjah • India</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="uae-content-col">
+          <div className="uae-pill-eyebrow">
+            <span className="uae-flag" aria-hidden="true">🇦🇪</span>
+            <span>Acetrix Accounting & Advisory, UAE</span>
+          </div>
+
+          <h2 className="uae-title">
+            Looking For The Best Audit And Accounting Services In UAE?
+          </h2>
+
+          <p className="uae-lead">
+            Our seasoned Chartered Accountants and financial specialists in the UAE bring their expertise across offices in <strong>Abu Dhabi, Dubai, Sharjah, and India</strong>. Whether you’re a bold startup or a seasoned MNC, Acetrix tailors its comprehensive accounting and financial advisory services to your journey.
+          </p>
+
+          <p className="uae-body">
+            We provide full-spectrum support for UAE Corporate Tax registration and return filings, FTA VAT compliance, financial reporting, and backlog clearing. Our team of Auditors, Accountants, and Tax Specialists empowers you to navigate complex regulatory landscapes with total confidence, unlocking true potential across the dynamic Emirati market.
+          </p>
+
+          <div className="uae-highlights-grid">
+            {highlights.map(item => (
+              <div className="uae-highlight-item" key={item.title}>
+                <span className="uae-check-icon"><Check size={14} /></span>
+                <div>
+                  <strong>{item.title}</strong>
+                  <p>{item.detail}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="uae-actions">
+            <a className="button button-primary" href="#contact">
+              Schedule UAE Consultation <ArrowRight size={15} />
+            </a>
+            <a className="button button-secondary uae-call-btn" href="tel:+97141234567">
+              <Phone size={15} />
+              <span>+971 4 123 4567</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function Services() {
   return (
-    <section className="section section-mist" id="services">
-      <div className="container">
+    <section className="section services-section" id="services">
+      <div className="services-ambient-glow services-ambient-glow-1" aria-hidden="true" />
+      <div className="services-ambient-glow services-ambient-glow-2" aria-hidden="true" />
+      <div className="container relative z-10">
         <SectionIntro eyebrow="What we do" title="Accounting Solutions for Your Business" />
-        <div className="services-grid">{services.map(({ icon: Icon, title, detail }) => <article className="service-card" key={title}><span className="service-icon"><Icon size={21} /></span><h3>{title}</h3><p>{detail}</p><a href="#contact">Learn More <ArrowRight size={14} /></a></article>)}</div>
+        <div className="services-grid">
+          {services.map(({ icon: Icon, title, detail }, index) => {
+            const indexStr = String(index + 1).padStart(2, '0')
+            return (
+              <article className="service-card glass-card" key={title}>
+                <div className="service-card-header">
+                  <span className="service-icon-wrap">
+                    <Icon size={22} />
+                  </span>
+                  <span className="service-index">{indexStr}</span>
+                </div>
+                <h3>{title}</h3>
+                <p>{detail}</p>
+                <div className="service-card-footer">
+                  <a className="service-cta" href="#contact">
+                    <span>Learn More</span>
+                    <span className="service-cta-arrow">
+                      <ArrowRight size={14} />
+                    </span>
+                  </a>
+                </div>
+              </article>
+            )
+          })}
+        </div>
       </div>
     </section>
   )
@@ -293,7 +398,7 @@ function Contact() {
     setErrors(next)
     if (!Object.keys(next).length) setSubmitted(true)
   }
-  return <section className="contact-section" id="contact"><div className="contact-backdrop" /><div className="container contact-grid"><div className="contact-copy"><p className="eyebrow eyebrow-light">Get in touch</p><h2>Let's Simplify Your Accounting</h2><p>Tell us about your accounting requirements. Our team can help you explore suitable accounting and financial support for your business.</p><div className="contact-list"><div><span><Mail size={16} /></span><p><strong>Email Address</strong>info@acetrix.com</p></div><div><span><Phone size={16} /></span><p><strong>Phone Number</strong>+91 98765 43210</p></div><div><span><MapPin size={16} /></span><p><strong>Office Address</strong>123 Business Avenue, Kochi, Kerala</p></div><div><span><Clock3 size={16} /></span><p><strong>Business Hours</strong>Mon - Fri: 9:00 AM - 6:00 PM</p></div></div></div><div className="contact-form-wrap"><div className="form-heading"><span>Request a Consultation</span>{submitted && <em><Check size={14} /> Request received</em>}</div><form onSubmit={submit} noValidate><div className="form-row"><Field label="Full Name*" name="name" value={values.name} onChange={update} error={errors.name} placeholder="Enter your name" /><Field label="Business Email*" name="email" type="email" value={values.email} onChange={update} error={errors.email} placeholder="Enter your email" /></div><div className="form-row"><Field label="Phone Number*" name="phone" value={values.phone} onChange={update} error={errors.phone} placeholder="Enter your number" /><Field label="Company Name" name="company" value={values.company} onChange={update} placeholder="Enter company name" /></div><Field label="Service Required*" name="service" type="select" value={values.service} onChange={update} error={errors.service} options={['Select a service', ...services.map(item => item.title)]} /><Field label="Message" name="message" type="textarea" value={values.message} onChange={update} error={errors.message} placeholder="Tell us about your requirements..." /><label className={`check-label ${errors.privacy ? 'has-error' : ''}`}><input type="checkbox" name="privacy" checked={values.privacy} onChange={update} /><span>I agree to the Privacy Policy</span></label>{errors.privacy && <small className="field-error privacy-error">{errors.privacy}</small>}<button className="button button-primary form-submit" type="submit">Request a Consultation <ArrowRight size={15} /></button></form></div></div></section>
+  return <section className="contact-section" id="contact"><div className="contact-backdrop" /><div className="container contact-grid"><div className="contact-copy"><p className="eyebrow eyebrow-light">Get in touch</p><h2>Let's Simplify Your Accounting</h2><p>Tell us about your accounting requirements in the UAE or India. Our team can help you explore tailored accounting, auditing, and corporate tax support.</p><div className="contact-list"><div><span><Mail size={16} /></span><p><strong>Email Address</strong>info@acetrix.com</p></div><div><span><Phone size={16} /></span><p><strong>Phone Numbers</strong>+971 4 123 4567 (UAE)<br />+91 98765 43210 (India)</p></div><div><span><MapPin size={16} /></span><p><strong>Regional Offices</strong>Dubai & Abu Dhabi, UAE<br />Kochi, Kerala, India</p></div><div><span><Clock3 size={16} /></span><p><strong>Business Hours</strong>Mon - Fri: 9:00 AM - 6:00 PM (GST / IST)</p></div></div></div><div className="contact-form-wrap"><div className="form-heading"><span>Request a Consultation</span>{submitted && <em><Check size={14} /> Request received</em>}</div><form onSubmit={submit} noValidate><div className="form-row"><Field label="Full Name*" name="name" value={values.name} onChange={update} error={errors.name} placeholder="Enter your name" /><Field label="Business Email*" name="email" type="email" value={values.email} onChange={update} error={errors.email} placeholder="Enter your email" /></div><div className="form-row"><Field label="Phone Number*" name="phone" value={values.phone} onChange={update} error={errors.phone} placeholder="Enter your number" /><Field label="Company Name" name="company" value={values.company} onChange={update} placeholder="Enter company name" /></div><Field label="Service Required*" name="service" type="select" value={values.service} onChange={update} error={errors.service} options={['Select a service', ...services.map(item => item.title)]} /><Field label="Message" name="message" type="textarea" value={values.message} onChange={update} error={errors.message} placeholder="Tell us about your requirements..." /><label className={`check-label ${errors.privacy ? 'has-error' : ''}`}><input type="checkbox" name="privacy" checked={values.privacy} onChange={update} /><span>I agree to the Privacy Policy</span></label>{errors.privacy && <small className="field-error privacy-error">{errors.privacy}</small>}<button className="button button-primary form-submit" type="submit">Request a Consultation <ArrowRight size={15} /></button></form></div></div></section>
 }
 
 function Field({ label, name, type = 'text', value, onChange, error, placeholder, options }) {
@@ -308,7 +413,7 @@ function Footer() {
         <div className="footer-brand">
           <Logo light />
           <p className="footer-description">
-            Acetrix helps businesses simplify accounting, improve financial visibility, and manage their financial operations with confidence.
+            Acetrix helps businesses simplify accounting, ensure UAE FTA tax compliance, improve financial visibility, and manage regional operations with confidence.
           </p>
           <div className="socials" aria-label="Social media links">
             <a href="#contact" aria-label="LinkedIn" className="social-link">in</a>
@@ -347,17 +452,21 @@ function Footer() {
               <Mail size={18} />
               <span>info@acetrix.com</span>
             </a>
+            <a href="tel:+97141234567" className="footer-contact-item">
+              <Phone size={18} />
+              <span>+971 4 123 4567 (UAE)</span>
+            </a>
             <a href="tel:+919876543210" className="footer-contact-item">
               <Phone size={18} />
-              <span>+91 98765 43210</span>
+              <span>+91 98765 43210 (India)</span>
             </a>
             <div className="footer-contact-item">
               <MapPin size={18} />
-              <span>123 Business Avenue, Kochi, Kerala</span>
+              <span>Dubai, Abu Dhabi, Sharjah & India</span>
             </div>
             <div className="footer-contact-item">
               <Clock3 size={18} />
-              <span>Mon - Fri: 9:00 AM - 6:00 PM</span>
+              <span>Mon - Fri: 9:00 AM - 6:00 PM GST</span>
             </div>
           </div>
           <a className="footer-cta-btn" href="#contact">
@@ -389,6 +498,7 @@ export default function App() {
       <main>
         <Hero />
         <TrustStrip />
+        <UAEPresence />
         <Services />
         <WhyAcetrix />
         <Industries />
