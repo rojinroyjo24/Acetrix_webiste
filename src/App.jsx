@@ -1,0 +1,408 @@
+import { useState } from 'react'
+import {
+  ArrowRight,
+  ArrowUpRight,
+  BarChart3,
+  BriefcaseBusiness,
+  Calculator,
+  Check,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  ClipboardCheck,
+  Clock3,
+  FileBarChart,
+  FileCheck2,
+  FileSearch,
+  Handshake,
+  Landmark,
+  LineChart,
+  Mail,
+  MapPin,
+  Menu,
+  MessageCircle,
+  Phone,
+  Quote,
+  ShieldCheck,
+  Sparkles,
+  TrendingUp,
+  UsersRound,
+  X,
+} from 'lucide-react'
+
+const imageBase = 'https://images.unsplash.com'
+
+const navItems = [
+  { label: 'Home', href: '#home' },
+  { label: 'About Us', href: '#about' },
+  { label: 'Services', href: '#services' },
+  { label: 'Industries', href: '#industries' },
+  { label: 'Insights', href: '#insights' },
+  { label: 'Contact Us', href: '#contact' },
+]
+
+const footerQuickLinks = [
+  { label: 'Home', href: '#home' },
+  { label: 'About Us', href: '#about' },
+  { label: 'Industries', href: '#industries' },
+  { label: 'Insights', href: '#insights' },
+  { label: 'Contact Us', href: '#contact' },
+]
+
+const footerServices = [
+  { label: 'Bookkeeping Services', href: '#services' },
+  { label: 'Accounting Outsourcing', href: '#services' },
+  { label: 'Account Reconciliation', href: '#services' },
+  { label: 'Financial Reporting', href: '#services' },
+  { label: 'Accounting System Analysis', href: '#services' },
+  { label: 'Part-Time Accounting', href: '#services' },
+]
+
+const heroAvatars = [
+  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&h=120&q=80',
+  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&h=120&q=80',
+  'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&h=120&q=80',
+  'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&h=120&q=80',
+]
+
+
+const trustItems = [
+  { icon: ShieldCheck, title: 'Accuracy in Accounting', detail: 'Consistent and reliable records' },
+  { icon: Handshake, title: 'Transparent Processes', detail: 'Clear and open communication' },
+  { icon: BarChart3, title: 'Business-Focused Solutions', detail: 'Support for your operational goals' },
+  { icon: UsersRound, title: 'Reliable Financial Support', detail: 'Professional and timely assistance' },
+]
+
+const services = [
+  { icon: FileCheck2, title: 'Account Reconciliation Services', detail: 'Reconcile financial records, identify discrepancies, and maintain consistency between accounts.' },
+  { icon: BriefcaseBusiness, title: 'Accounting Outsourcing Services', detail: 'Outsource accounting activities to simplify financial administration and improve control.' },
+  { icon: FileSearch, title: 'Updating of Backlog Accounts Service', detail: 'Bring pending accounting records up to date by organizing historical transactions.' },
+  { icon: Clock3, title: 'Part Time Accounting Services', detail: 'Flexible accounting support for businesses that need professional assistance without a full-time team.' },
+  { icon: LineChart, title: 'Accounting System Analysis', detail: 'Review accounting workflows and system usage to identify opportunities for better information.' },
+  { icon: FileBarChart, title: 'Accounting And Financial Reporting Services', detail: 'Organize accounting information into meaningful financial reports for better decisions.' },
+  { icon: Calculator, title: 'Bookkeeping Services', detail: 'Maintain organized records of business transactions, income and expenses.' },
+  { icon: ClipboardCheck, title: 'Regular Accounting Services – Data Entry', detail: 'Support routine accounting operations through structured financial data entry.' },
+]
+
+const industries = [
+  { title: 'Small and Medium-Sized Businesses', detail: 'Accounting support to manage and grow your business.', image: `${imageBase}/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=800&q=80` },
+  { title: 'Professional Services', detail: 'Tailored accounting solutions for service-based professionals.', image: `${imageBase}/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80` },
+  { title: 'Retail and Ecommerce', detail: 'Support for retail operations and online businesses.', image: `${imageBase}/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80` },
+  { title: 'Trading and Distribution', detail: 'Accounting for trade activities and distribution networks.', image: `${imageBase}/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80` },
+  { title: 'Startups and Growing Businesses', detail: 'Flexible support for business at every stage.', image: `${imageBase}/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80` },
+  { title: 'Service-Based Companies', detail: 'Accounting assistance for various service industries.', image: `${imageBase}/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=800&q=80` },
+]
+
+const steps = [
+  { number: '01', icon: FileSearch, title: 'Understand', detail: 'We learn about your business, current accounting processes, and requirements.' },
+  { number: '02', icon: ClipboardCheck, title: 'Review', detail: 'We review the available records, identify priorities, and understand the scope of work.' },
+  { number: '03', icon: BarChart3, title: 'Organize', detail: 'We carry out the agreed accounting activities using a structured workflow.' },
+  { number: '04', icon: ShieldCheck, title: 'Support', detail: 'We provide the agreed record, reports, and ongoing accounting assistance.' },
+]
+
+const testimonials = [
+  { quote: 'Acetrix helped us keep our accounting organized and up to date. Their professional approach and clear communication make working with them simple and effective.', name: 'Business Owner', company: 'Service industry', initials: 'BO' },
+  { quote: 'Their support with bookkeeping and financial reporting has made a real difference in how we manage our business finances.', name: 'Managing Director', company: 'Retail business', initials: 'MD' },
+  { quote: 'A reliable and responsive team. They understand our requirements and provide practical accounting support.', name: 'Founder', company: 'Professional services', initials: 'FO' },
+]
+
+const faqs = [
+  ['What accounting services does Acetrix provide?', 'Acetrix provides reconciliation, bookkeeping, outsourced accounting, backlog updating, reporting, system analysis, part-time accounting and regular data entry services.'],
+  ['Can a business use part-time accounting services?', 'Yes. Part-time support is ideal for businesses that need dependable accounting expertise without the cost of a full-time in-house team.'],
+  ['What is accounting outsourcing?', 'Accounting outsourcing means engaging a specialist team to handle agreed accounting activities, giving your business more time and clarity to focus on operations.'],
+  ['What is included in bookkeeping services?', 'Bookkeeping includes maintaining organized records of transactions, income, expenses, and the supporting information your business relies on.'],
+  ['Can Acetrix help update pending accounting records?', 'Yes. Our backlog accounting service brings pending records up to date through a structured review and organization process.'],
+  ['How can accounting and financial reporting help my business?', 'Reliable reports help you understand performance, monitor cash flow, plan ahead, and make decisions with greater confidence.'],
+  ['What are account reconciliation services?', 'Reconciliation compares records from different sources, identifies discrepancies and helps keep financial information accurate and consistent.'],
+  ['How can I request a consultation?', 'Use the contact form below or call our team. We will learn about your requirements and suggest the right next step.'],
+]
+
+const insights = [
+  { category: 'Accounting', title: 'Why Account Reconciliation Matters for Businesses', detail: 'Understand how regular account reconciliation helps maintain accurate records and better financial control.', time: '5 min read', image: `${imageBase}/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1000&q=85` },
+  { category: 'Business', title: 'The Benefits of Outsourcing Accounting Services', detail: 'Explore how outsourcing accounting can improve efficiency and reduce administrative workload.', time: '6 min read', image: `${imageBase}/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1000&q=85` },
+  { category: 'Bookkeeping', title: 'How Organized Bookkeeping Supports Better Decisions', detail: 'Learn how consistent bookkeeping helps you understand your finances and plan for the future.', time: '5 min read', image: `${imageBase}/photo-1554224154-26032ffc0d07?auto=format&fit=crop&w=1000&q=85` },
+]
+
+function Logo({ light = false }) {
+  return (
+    <a href="#home" className={`logo ${light ? 'logo-light' : ''}`} aria-label="Acetrix home">
+      <span className="logo-mark" aria-hidden="true"><span /><span /><span /></span>
+      <span className="logo-copy"><strong>Acetrix</strong><small>ACCOUNTING. ADVISORY.</small></span>
+    </a>
+  )
+}
+
+function SectionIntro({ eyebrow, title, light = false }) {
+  return (
+    <div className={`section-intro ${light ? 'section-intro-light' : ''}`}>
+      <p className="eyebrow">{eyebrow}</p>
+      <h2>{title}</h2>
+    </div>
+  )
+}
+
+function Header() {
+  const [open, setOpen] = useState(false)
+  const close = () => setOpen(false)
+  return (
+    <header className="site-header">
+      <div className="container nav-wrap">
+        <Logo />
+        <nav className="desktop-nav" aria-label="Primary navigation">
+          {navItems.map((item, index) => <a className={index === 0 ? 'active' : ''} key={item.href} href={item.href}>{item.label}</a>)}
+        </nav>
+        <a className="button button-primary nav-cta" href="#contact">Book a Consultation <ArrowRight size={15} /></a>
+        <button className="menu-toggle" type="button" onClick={() => setOpen(!open)} aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open}>
+          {open ? <X size={22} /> : <Menu size={22} />}
+        </button>
+      </div>
+      {open && <nav className="mobile-nav" aria-label="Mobile navigation">
+        {navItems.map(item => <a key={item.href} href={item.href} onClick={close}>{item.label}</a>)}
+        <a className="button button-primary" href="#contact" onClick={close}>Book a Consultation <ArrowRight size={15} /></a>
+      </nav>}
+    </header>
+  )
+}
+
+function Hero() {
+  return (
+    <section className="hero" id="home">
+      <div className="hero-grid">
+        <div className="hero-content">
+          <p className="eyebrow">YOUR TRUSTED FINANCIAL PARTNER</p>
+          <h1>
+            Clarity in Numbers.<br />
+            <span>Confidence in<br className="desktop-only" /> Every Decision.</span>
+          </h1>
+          <p className="hero-body">
+            Acetrix helps businesses simplify their accounting, streamline financial operations, and make confident decisions with reliable accounting and financial reporting services.
+          </p>
+          <div className="hero-actions">
+            <a className="button button-primary" href="#services">
+              Explore Our Services <ArrowRight size={18} />
+            </a>
+            <a className="button button-outline" href="#contact">
+              Talk to Our Experts
+            </a>
+          </div>
+        </div>
+        <div className="hero-visual">
+          <img
+            src="/images/hero-workspace.png"
+            alt="Professional financial analysis workspace with laptop, calculator, and reports"
+            className="hero-image"
+          />
+          <div className="hero-overlay" />
+          <div className="growth-card">
+            <span className="card-title">Financial Growth</span>
+            <div className="mini-bars" aria-hidden="true">
+              <i /><i /><i /><i /><i /><i /><i /><i />
+            </div>
+            <div className="growth-stat">
+              <strong>+18%</strong>
+              <small>vs last year</small>
+            </div>
+          </div>
+          <div className="check-card">
+            <span><Check size={14} /> Organize</span>
+            <span><Check size={14} /> Reconcile</span>
+            <span><Check size={14} /> Report</span>
+            <span><Check size={14} /> Grow</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function TrustStrip() {
+  return <section className="trust-strip"><div className="container trust-grid">{trustItems.map(({ icon: Icon, title, detail }) => <div className="trust-item" key={title}><span className="icon-badge"><Icon size={20} /></span><span><strong>{title}</strong><small>{detail}</small></span></div>)}</div></section>
+}
+
+function Services() {
+  return (
+    <section className="section section-mist" id="services">
+      <div className="container">
+        <SectionIntro eyebrow="What we do" title="Accounting Solutions for Your Business" />
+        <div className="services-grid">{services.map(({ icon: Icon, title, detail }) => <article className="service-card" key={title}><span className="service-icon"><Icon size={21} /></span><h3>{title}</h3><p>{detail}</p><a href="#contact">Learn More <ArrowRight size={14} /></a></article>)}</div>
+      </div>
+    </section>
+  )
+}
+
+function WhyAcetrix() {
+  const items = [
+    ['01', 'Accuracy and Attention to Detail', 'Organized accounting processes designed to support accurate and consistent records.'],
+    ['02', 'Flexible Service Options', 'Accounting support tailored to different operational needs and business stages.'],
+    ['03', 'Clear Financial Information', 'Structured records and reporting that help you understand your financial position.'],
+    ['04', 'A Business-Focused Approach', 'Practical accounting support that helps you focus on what matters most.'],
+  ]
+  return (
+    <section className="why-section" id="about">
+      <div className="container why-grid">
+        <div className="why-copy"><p className="eyebrow eyebrow-light">Why Acetrix</p><h2>More Than Accounting.<br />A Clearer View of Your Finances.</h2><p>We combine dependable accounting expertise with a practical understanding of how businesses operate, so your numbers become a tool for confident decisions.</p><a className="button button-light" href="#contact">Learn More About Us <ArrowRight size={15} /></a></div>
+        <div className="why-features">{items.map(([number, title, detail], index) => <div className="why-feature" key={number}><span className="why-feature-icon">{index === 0 ? <ShieldCheck size={20} /> : index === 1 ? <Sparkles size={20} /> : index === 2 ? <FileBarChart size={20} /> : <TrendingUp size={20} />}</span><span><small>{number}.</small><strong>{title}</strong><p>{detail}</p></span></div>)}</div>
+      </div>
+      <div className="why-building" aria-hidden="true"><div /></div>
+    </section>
+  )
+}
+
+function Industries() {
+  return <section className="section" id="industries"><div className="container"><SectionIntro eyebrow="Our industries" title="Industries We Serve" /><div className="industry-grid">{industries.map(industry => <article className="industry-card" key={industry.title}><img src={industry.image} alt="" /><div><h3>{industry.title}</h3><p>{industry.detail}</p><a href="#contact" aria-label={`Learn more about ${industry.title}`}><ArrowUpRight size={17} /></a></div></article>)}</div></div></section>
+}
+
+function Process() {
+  return <section className="section section-mist process-section"><div className="container"><div className="process-heading"><p className="eyebrow">How we work</p><h2>A Straightforward Approach to Accounting</h2></div><div className="process-line">{steps.map(({ number, icon: Icon, title, detail }, index) => <div className="process-step" key={number}><div className="step-top"><span>{number}</span>{index < steps.length - 1 && <i />}</div><span className="process-icon"><Icon size={21} /></span><h3>{title}</h3><p>{detail}</p></div>)}</div></div></section>
+}
+
+function Testimonials() {
+  const [active, setActive] = useState(0)
+  return <section className="section testimonials"><div className="container"><SectionIntro eyebrow="What our clients say" title="Built Around Your Business Needs" /><div className="testimonial-controls"><button type="button" aria-label="Previous testimonial" onClick={() => setActive((active + testimonials.length - 1) % testimonials.length)}><ChevronLeft size={17} /></button><button type="button" aria-label="Next testimonial" onClick={() => setActive((active + 1) % testimonials.length)}><ChevronRight size={17} /></button></div><div className="testimonials-grid">{testimonials.map((item, index) => <article className={`testimonial-card ${index === active ? 'featured' : ''}`} key={item.name}><Quote size={24} className="quote-mark" /><p>{item.quote}</p><div className="testimonial-author"><span>{item.initials}</span><div><strong>{item.name}</strong><small>{item.company}</small></div></div></article>)}</div></div></section>
+}
+
+function FAQ() {
+  const [active, setActive] = useState(0)
+  return <section className="section section-mist faq-section"><div className="container"><div className="faq-heading"><p className="eyebrow">FAQ</p><h2>Frequently Asked Questions</h2></div><div className="faq-grid">{faqs.map(([question, answer], index) => <div className={`faq-item ${active === index ? 'open' : ''}`} key={question}><button type="button" onClick={() => setActive(active === index ? -1 : index)} aria-expanded={active === index}><span>{question}</span><ChevronDown size={16} /></button>{active === index && <div className="faq-answer"><p>{answer}</p></div>}</div>)}</div></div></section>
+}
+
+function Insights() {
+  return <section className="section" id="insights"><div className="container"><SectionIntro eyebrow="Latest insights" title="Insights for Better Financial Management" /><div className="insights-grid">{insights.map(article => <article className="insight-card" key={article.title}><img src={article.image} alt="" /><div className="insight-body"><span className="pill">{article.category}</span><h3>{article.title}</h3><p>{article.detail}</p><div className="insight-meta"><span>{article.time}</span><a href="#contact" aria-label={`Read ${article.title}`}><ArrowRight size={15} /></a></div></div></article>)}</div></div></section>
+}
+
+function Contact() {
+  const [values, setValues] = useState({ name: '', email: '', phone: '', company: '', service: '', message: '', privacy: false })
+  const [errors, setErrors] = useState({})
+  const [submitted, setSubmitted] = useState(false)
+  const update = (event) => {
+    const { name, value, type, checked } = event.target
+    setValues(current => ({ ...current, [name]: type === 'checkbox' ? checked : value }))
+    setErrors(current => ({ ...current, [name]: '' }))
+    setSubmitted(false)
+  }
+  const submit = (event) => {
+    event.preventDefault()
+    const next = {}
+    if (!values.name.trim()) next.name = 'Please enter your name.'
+    if (!values.email.trim()) next.email = 'Please enter your email.'
+    else if (!/^\S+@\S+\.\S+$/.test(values.email)) next.email = 'Please enter a valid email.'
+    if (!values.phone.trim()) next.phone = 'Please enter your phone number.'
+    if (!values.service) next.service = 'Please select a service.'
+    if (!values.message.trim()) next.message = 'Please tell us a little about your requirements.'
+    if (!values.privacy) next.privacy = 'Please accept the privacy policy.'
+    setErrors(next)
+    if (!Object.keys(next).length) setSubmitted(true)
+  }
+  return <section className="contact-section" id="contact"><div className="contact-backdrop" /><div className="container contact-grid"><div className="contact-copy"><p className="eyebrow eyebrow-light">Get in touch</p><h2>Let's Simplify Your Accounting</h2><p>Tell us about your accounting requirements. Our team can help you explore suitable accounting and financial support for your business.</p><div className="contact-list"><div><span><Mail size={16} /></span><p><strong>Email Address</strong>info@acetrix.com</p></div><div><span><Phone size={16} /></span><p><strong>Phone Number</strong>+91 98765 43210</p></div><div><span><MapPin size={16} /></span><p><strong>Office Address</strong>123 Business Avenue, Kochi, Kerala</p></div><div><span><Clock3 size={16} /></span><p><strong>Business Hours</strong>Mon - Fri: 9:00 AM - 6:00 PM</p></div></div></div><div className="contact-form-wrap"><div className="form-heading"><span>Request a Consultation</span>{submitted && <em><Check size={14} /> Request received</em>}</div><form onSubmit={submit} noValidate><div className="form-row"><Field label="Full Name*" name="name" value={values.name} onChange={update} error={errors.name} placeholder="Enter your name" /><Field label="Business Email*" name="email" type="email" value={values.email} onChange={update} error={errors.email} placeholder="Enter your email" /></div><div className="form-row"><Field label="Phone Number*" name="phone" value={values.phone} onChange={update} error={errors.phone} placeholder="Enter your number" /><Field label="Company Name" name="company" value={values.company} onChange={update} placeholder="Enter company name" /></div><Field label="Service Required*" name="service" type="select" value={values.service} onChange={update} error={errors.service} options={['Select a service', ...services.map(item => item.title)]} /><Field label="Message" name="message" type="textarea" value={values.message} onChange={update} error={errors.message} placeholder="Tell us about your requirements..." /><label className={`check-label ${errors.privacy ? 'has-error' : ''}`}><input type="checkbox" name="privacy" checked={values.privacy} onChange={update} /><span>I agree to the Privacy Policy</span></label>{errors.privacy && <small className="field-error privacy-error">{errors.privacy}</small>}<button className="button button-primary form-submit" type="submit">Request a Consultation <ArrowRight size={15} /></button></form></div></div></section>
+}
+
+function Field({ label, name, type = 'text', value, onChange, error, placeholder, options }) {
+  return <label className={`field ${error ? 'has-error' : ''}`}><span>{label}</span>{type === 'select' ? <select name={name} value={value} onChange={onChange}><option value="">{options[0]}</option>{options.slice(1).map(option => <option value={option} key={option}>{option}</option>)}</select> : type === 'textarea' ? <textarea name={name} value={value} onChange={onChange} placeholder={placeholder} rows="3" /> : <input name={name} type={type} value={value} onChange={onChange} placeholder={placeholder} />}{error && <small className="field-error">{error}</small>}</label>
+}
+
+function Footer() {
+  const currentYear = new Date().getFullYear()
+  return (
+    <footer className="site-footer">
+      <div className="container footer-grid">
+        <div className="footer-brand">
+          <Logo light />
+          <p className="footer-description">
+            Acetrix helps businesses simplify accounting, improve financial visibility, and manage their financial operations with confidence.
+          </p>
+          <div className="socials" aria-label="Social media links">
+            <a href="#contact" aria-label="LinkedIn" className="social-link">in</a>
+            <a href="#contact" aria-label="Facebook" className="social-link">f</a>
+            <a href="#contact" aria-label="Instagram" className="social-link">◎</a>
+            <a href="#contact" aria-label="YouTube" className="social-link">▶</a>
+          </div>
+        </div>
+
+        <div className="footer-column">
+          <h3>Quick Links</h3>
+          <ul className="footer-links-list">
+            {footerQuickLinks.map(item => (
+              <li key={item.label}>
+                <a href={item.href}>{item.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="footer-column">
+          <h3>Our Services</h3>
+          <ul className="footer-links-list">
+            {footerServices.map(item => (
+              <li key={item.label}>
+                <a href={item.href}>{item.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="footer-column footer-contact">
+          <h3>Get in Touch</h3>
+          <div className="footer-contact-details">
+            <a href="mailto:info@acetrix.com" className="footer-contact-item">
+              <Mail size={18} />
+              <span>info@acetrix.com</span>
+            </a>
+            <a href="tel:+919876543210" className="footer-contact-item">
+              <Phone size={18} />
+              <span>+91 98765 43210</span>
+            </a>
+            <div className="footer-contact-item">
+              <MapPin size={18} />
+              <span>123 Business Avenue, Kochi, Kerala</span>
+            </div>
+            <div className="footer-contact-item">
+              <Clock3 size={18} />
+              <span>Mon - Fri: 9:00 AM - 6:00 PM</span>
+            </div>
+          </div>
+          <a className="footer-cta-btn" href="#contact">
+            Book a Consultation <ArrowRight size={16} />
+          </a>
+        </div>
+      </div>
+
+      <div className="footer-bottom-bar">
+        <div className="container footer-bottom-inner">
+          <span className="copyright-text">
+            © {currentYear} Acetrix. All rights reserved.
+          </span>
+          <div className="legal-links">
+            <a href="#contact">Privacy Policy</a>
+            <span className="legal-dot" aria-hidden="true">•</span>
+            <a href="#contact">Terms & Conditions</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  )
+}
+
+export default function App() {
+  return (
+    <>
+      <Header />
+      <main>
+        <Hero />
+        <TrustStrip />
+        <Services />
+        <WhyAcetrix />
+        <Industries />
+        <Process />
+        <Testimonials />
+        <FAQ />
+        <Insights />
+        <Contact />
+      </main>
+      <Footer />
+      <a className="floating-chat" href="#contact" aria-label="Chat with Acetrix">
+        <MessageCircle size={22} />
+      </a>
+    </>
+  )
+}
+
