@@ -32,7 +32,7 @@ import {
   Mail,
   MapPin,
   Menu,
-  MessageCircle,
+  MessageSquareText,
   Phone,
   Quote,
   Rocket,
@@ -64,15 +64,30 @@ const serviceCategories = [
     ],
   },
   {
-    id: 'auditing',
-    name: 'Auditing & Assurance',
+    id: 'business',
+    name: 'Business',
     items: [
-      'Organisational Restructuring Services',
-      'Internal Audit Services',
-      'External Audit Services',
-      'Business Strategy Consultants Services',
-      'Financial Restructuring Service',
-      'Internal Control Procedure Services',
+      'CFO Services',
+      'Cost Benefit Analysis',
+      'Credit & Working Capital Management',
+      'Feasibility Study Services',
+      'Cash Flow Management Services',
+      'IFRS- Impact & Its Implementation',
+      'Finalization of Financial Statements',
+      'Business Valuation Services',
+      'IFRS Advisory Services',
+    ],
+  },
+  {
+    id: 'tax-agents',
+    name: 'Registered Tax Agents',
+    items: [
+      'FTA Registered Tax Agency Representation',
+      'Corporate Tax Assessment & Filing',
+      'Tax Audit Defense & Assistance',
+      'Tax Assessment & Penalty Reconsideration',
+      'Voluntary Disclosure (Form 211) Filing',
+      'Excise Tax Advisory & Registration',
     ],
   },
   {
@@ -92,11 +107,33 @@ const serviceCategories = [
     ],
   },
   {
+    id: 'auditing',
+    name: 'Auditing & Assurance',
+    items: [
+      'Organisational Restructuring Services',
+      'Internal Audit Services',
+      'External Audit Services',
+      'Business Strategy Consultants Services',
+      'Financial Restructuring Service',
+      'Internal Control Procedure Services',
+    ],
+  },
+  {
     id: 'software',
     name: 'Accounting Software',
     items: [
       'Accounting Software Consultancy Services',
       'Training On Different Accounting Software',
+    ],
+  },
+  {
+    id: 'payroll',
+    name: 'Payroll Services',
+    items: [
+      'Payroll Accounting Services',
+      'Payroll Outsourcing Services',
+      'WPS Compliance & Salary Processing',
+      'End of Service & Gratuity Calculation',
     ],
   },
 ]
@@ -123,11 +160,11 @@ const footerQuickLinks = [
 
 const footerServices = [
   { label: 'Accounting Services', category: 'accounting' },
+  { label: 'Business & CFO Services', category: 'business' },
+  { label: 'Registered Tax Agents & VAT', category: 'tax-agents' },
   { label: 'Auditing & Assurance', category: 'auditing' },
-  { label: 'VAT & UAE Corporate Tax', category: 'vat' },
-  { label: 'Accounting Software & ERP', category: 'software' },
-  { label: 'Bookkeeping & Backlog Cleanup', category: 'accounting' },
-  { label: 'Statutory Freezone Audits', category: 'auditing' },
+  { label: 'Payroll Services & WPS', category: 'payroll' },
+  { label: 'Accounting Software & Cloud ERP', category: 'software' },
 ]
 
 const trustItems = [
@@ -334,8 +371,8 @@ function Logo({ light = false, onNavigate }) {
         src={light ? '/images/acetrix-logo-white.png' : '/images/acetrix-logo.png'}
         alt="Acetrix Accounting & Advisory"
         className="site-logo-image"
-        width="170"
-        height="44"
+        width="220"
+        height="56"
       />
     </a>
   )
@@ -539,7 +576,7 @@ function Header({ currentRoute = 'home', onNavigate }) {
                           <Layers size={16} />
                         </span>
                         <div>
-                          <strong>Explore All 26 Services</strong>
+                          <strong>Explore All 45 Services</strong>
                           <small>Overview & Scope Estimator</small>
                         </div>
                         <ArrowRight size={14} className="overview-arrow" />
@@ -1249,7 +1286,7 @@ function Services({ onNavigate }) {
             <span className="services-banner-badge">Complete Practice Directory</span>
             <h4>Need specialized scope or custom accounting packages?</h4>
             <p>
-              Explore our full directory of 26 specialized services across Accounting, Auditing, UAE Tax, and Cloud ERP.
+              Explore our full directory of 45 specialized services across Accounting, Business Advisory, UAE Tax, Auditing, and Payroll.
             </p>
           </div>
           <button
@@ -1263,7 +1300,7 @@ function Services({ onNavigate }) {
               }
             }}
           >
-            <span>Explore All 26 Services</span>
+            <span>Explore All 45 Services</span>
             <ArrowRight size={16} />
           </button>
         </div>
@@ -1673,7 +1710,7 @@ function getRouteFromHash() {
   const hash = window.location.hash.toLowerCase()
   if (hash.includes('about')) return { route: 'about', category: null }
   if (hash.includes('service')) {
-    const match = hash.match(/cat=([a-z]+)/)
+    const match = hash.match(/cat=([a-z\-]+)/)
     return { route: 'services', category: match ? match[1] : 'accounting' }
   }
   if (hash.includes('location')) return { route: 'locations', category: null }
@@ -1742,9 +1779,11 @@ export default function App() {
           e.preventDefault()
           navigateTo('contact')
         }}
-        aria-label="Chat with Acetrix"
+        aria-label="Contact Acetrix"
+        title="Contact Us"
       >
-        <MessageCircle size={22} />
+        <MessageSquareText size={22} />
+        <span className="floating-chat-tooltip">Contact Us</span>
       </a>
     </>
   )

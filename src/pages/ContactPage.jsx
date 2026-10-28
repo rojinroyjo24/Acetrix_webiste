@@ -22,9 +22,7 @@ export default function ContactPage({ onNavigate }) {
     email: '',
     phone: '',
     company: '',
-    jurisdiction: 'Dubai Mainland',
-    service: 'Corporate Tax Advisory',
-    turnover: 'AED 3M - 15M',
+    service: 'Accounting & Bookkeeping',
     message: '',
   })
 
@@ -239,7 +237,7 @@ export default function ContactPage({ onNavigate }) {
                       />
                     </div>
                     <div className="form-field">
-                      <label htmlFor="email">Corporate Email *</label>
+                      <label htmlFor="email">Email Address *</label>
                       <input
                         id="email"
                         type="email"
@@ -264,11 +262,10 @@ export default function ContactPage({ onNavigate }) {
                       />
                     </div>
                     <div className="form-field">
-                      <label htmlFor="company">Company / Trade Name *</label>
+                      <label htmlFor="company">Company Name (Optional)</label>
                       <input
                         id="company"
                         type="text"
-                        required
                         placeholder="Company Name LLC"
                         value={formData.company}
                         onChange={(e) => setFormData({ ...formData, company: e.target.value })}
@@ -276,66 +273,30 @@ export default function ContactPage({ onNavigate }) {
                     </div>
                   </div>
 
-                  <div className="form-grid-2">
-                    <div className="form-field">
-                      <label htmlFor="jurisdiction">Entity Jurisdiction</label>
-                      <select
-                        id="jurisdiction"
-                        value={formData.jurisdiction}
-                        onChange={(e) => setFormData({ ...formData, jurisdiction: e.target.value })}
-                      >
-                        <option value="Dubai Mainland">Dubai Mainland LLC</option>
-                        <option value="Abu Dhabi Mainland">Abu Dhabi Mainland</option>
-                        <option value="DMCC Free Zone">DMCC Free Zone</option>
-                        <option value="DIFC">DIFC (Financial Center)</option>
-                        <option value="ADGM">ADGM (Abu Dhabi Global Market)</option>
-                        <option value="JAFZA">JAFZA (Jebel Ali)</option>
-                        <option value="DAFZA">DAFZA (Airport Freezone)</option>
-                        <option value="IFZA">IFZA / Silicon Oasis</option>
-                        <option value="Northern Emirates">Sharjah / UAQ / RAK Freezone</option>
-                        <option value="Offshore / International">Cross-Border / Holding Co.</option>
-                      </select>
-                    </div>
-
-                    <div className="form-field">
-                      <label htmlFor="service">Primary Service Required</label>
-                      <select
-                        id="service"
-                        value={formData.service}
-                        onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                      >
-                        <option value="Corporate Tax Advisory">Corporate Tax (9%) & Registration</option>
-                        <option value="VAT Return Filing & Health Check">FTA VAT Return Filing & Compliance</option>
-                        <option value="Statutory Annual Audit">Statutory Annual Audit (Freezone/Mainland)</option>
-                        <option value="Complete Accounting Outsourcing">Full Accounting Outsourcing</option>
-                        <option value="Backlog Accounts Clearance">Updating Backlog Accounts</option>
-                        <option value="Accounting Software & ERP Setup">Cloud Accounting Software Setup</option>
-                        <option value="Part-Time Fractional CFO">Fractional CFO & Financial Strategy</option>
-                      </select>
-                    </div>
-                  </div>
-
                   <div className="form-field">
-                    <label htmlFor="turnover">Estimated Annual Turnover Range</label>
+                    <label htmlFor="service">Service Required</label>
                     <select
-                      id="turnover"
-                      value={formData.turnover}
-                      onChange={(e) => setFormData({ ...formData, turnover: e.target.value })}
+                      id="service"
+                      value={formData.service}
+                      onChange={(e) => setFormData({ ...formData, service: e.target.value })}
                     >
-                      <option value="Under AED 3M">Under AED 3 Million (Small Business Relief)</option>
-                      <option value="AED 3M - 15M">AED 3 Million – AED 15 Million</option>
-                      <option value="AED 15M - 50M">AED 15 Million – AED 50 Million</option>
-                      <option value="Above AED 50M">Above AED 50 Million (Enterprise / Group)</option>
-                      <option value="Pre-revenue Startup">Pre-Revenue Startup / New License</option>
+                      <option value="Accounting & Bookkeeping">Accounting & Bookkeeping</option>
+                      <option value="Business Advisory & CFO">Business Advisory & CFO Services</option>
+                      <option value="Registered Tax Agents">Registered Tax Agents (FTA Representation)</option>
+                      <option value="VAT & Corporate Tax">VAT & UAE Corporate Tax Advisory</option>
+                      <option value="Auditing & Assurance">Auditing & Assurance</option>
+                      <option value="Payroll Services & WPS">Payroll Services & WPS Compliance</option>
+                      <option value="Accounting Software Setup">Accounting Software & ERP Setup</option>
+                      <option value="Other Financial Services">Other Financial Consultation</option>
                     </select>
                   </div>
 
                   <div className="form-field">
-                    <label htmlFor="message">Project Scope or Specific Deadlines (Optional)</label>
+                    <label htmlFor="message">Message / Requirements (Optional)</label>
                     <textarea
                       id="message"
                       rows={4}
-                      placeholder="Please mention any upcoming filing dates, transaction volumes, or specific requirements..."
+                      placeholder="Tell us briefly about your business requirements or any questions you have..."
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     />
