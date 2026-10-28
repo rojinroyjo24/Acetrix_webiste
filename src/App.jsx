@@ -1,9 +1,16 @@
 import { useState, useRef, useEffect } from 'react'
+import AboutPage from './pages/AboutPage'
+import ServicesPage from './pages/ServicesPage'
+import LocationsPage from './pages/LocationsPage'
+import IndustriesPage from './pages/IndustriesPage'
+import ContactPage from './pages/ContactPage'
 import {
   ArrowRight,
   ArrowUpRight,
   Award,
+  BadgePercent,
   BarChart3,
+  Briefcase,
   BriefcaseBusiness,
   Building2,
   Calculator,
@@ -19,6 +26,8 @@ import {
   FileSearch,
   Handshake,
   Landmark,
+  Laptop,
+  Layers,
   LineChart,
   Mail,
   MapPin,
@@ -28,9 +37,11 @@ import {
   Quote,
   Rocket,
   ShieldCheck,
+  ShoppingCart,
   Sparkles,
   Target,
   TrendingUp,
+  Truck,
   UsersRound,
   X,
 } from 'lucide-react'
@@ -91,40 +102,33 @@ const serviceCategories = [
 ]
 
 const navItems = [
-  { label: 'Home', href: '#home' },
-  { label: 'About Us', href: '#about' },
-  { label: 'Services', href: '#services' },
-  { label: 'Industries', href: '#industries' },
-  { label: 'Insights', href: '#insights' },
-  { label: 'Contact Us', href: '#contact' },
+  { label: 'Home', route: 'home', href: '#/' },
+  { label: 'About', route: 'about', href: '#/about' },
+  { label: 'Services', route: 'services', href: '#/services' },
+  { label: 'Location', route: 'locations', href: '#/locations' },
+  { label: 'Industry', route: 'industries', href: '#/industries' },
+  { label: 'Contact Us', route: 'contact', href: '#/contact' },
 ]
 
 const footerQuickLinks = [
-  { label: 'Home', href: '#home' },
-  { label: 'About Us', href: '#about' },
-  { label: 'Services', href: '#services' },
-  { label: 'Approved Freezones', href: '#freezones' },
-  { label: 'Industries', href: '#industries' },
-  { label: 'Insights', href: '#insights' },
-  { label: 'Contact Us', href: '#contact' },
+  { label: 'Home', route: 'home', href: '#/' },
+  { label: 'About', route: 'about', href: '#/about' },
+  { label: 'Services', route: 'services', href: '#/services' },
+  { label: 'Location', route: 'locations', href: '#/locations' },
+  { label: 'Approved Freezones', route: 'locations', href: '#/locations' },
+  { label: 'Industry', route: 'industries', href: '#/industries' },
+  { label: 'Insights', route: 'home', href: '#insights' },
+  { label: 'Contact Us', route: 'contact', href: '#/contact' },
 ]
 
 const footerServices = [
-  { label: 'Bookkeeping Services', href: '#services' },
-  { label: 'Accounting Outsourcing', href: '#services' },
-  { label: 'Account Reconciliation', href: '#services' },
-  { label: 'Financial Reporting', href: '#services' },
-  { label: 'Accounting System Analysis', href: '#services' },
-  { label: 'Part-Time Accounting', href: '#services' },
+  { label: 'Accounting Services', category: 'accounting' },
+  { label: 'Auditing & Assurance', category: 'auditing' },
+  { label: 'VAT & UAE Corporate Tax', category: 'vat' },
+  { label: 'Accounting Software & ERP', category: 'software' },
+  { label: 'Bookkeeping & Backlog Cleanup', category: 'accounting' },
+  { label: 'Statutory Freezone Audits', category: 'auditing' },
 ]
-
-const heroAvatars = [
-  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&h=120&q=80',
-  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&h=120&q=80',
-  'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&h=120&q=80',
-  'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&h=120&q=80',
-]
-
 
 const trustItems = [
   { icon: ShieldCheck, title: 'Accuracy in Accounting', detail: 'Consistent and reliable records' },
@@ -133,31 +137,161 @@ const trustItems = [
   { icon: UsersRound, title: 'Reliable Financial Support', detail: 'Professional and timely assistance' },
 ]
 
-const services = [
-  { icon: FileCheck2, title: 'Account Reconciliation Services', detail: 'Reconcile financial records, identify discrepancies, and maintain consistency between accounts.' },
-  { icon: BriefcaseBusiness, title: 'Accounting Outsourcing Services', detail: 'Outsource accounting activities to simplify financial administration and improve control.' },
-  { icon: FileSearch, title: 'Updating of Backlog Accounts Service', detail: 'Bring pending accounting records up to date by organizing historical transactions.' },
-  { icon: Clock3, title: 'Part Time Accounting Services', detail: 'Flexible accounting support for businesses that need professional assistance without a full-time team.' },
-  { icon: LineChart, title: 'Accounting System Analysis', detail: 'Review accounting workflows and system usage to identify opportunities for better information.' },
-  { icon: FileBarChart, title: 'Accounting And Financial Reporting Services', detail: 'Organize accounting information into meaningful financial reports for better decisions.' },
-  { icon: Calculator, title: 'Bookkeeping Services', detail: 'Maintain organized records of business transactions, income and expenses.' },
-  { icon: ClipboardCheck, title: 'Regular Accounting Services – Data Entry', detail: 'Support routine accounting operations through structured financial data entry.' },
+const mainServices = [
+  {
+    id: 'accounting',
+    number: '01',
+    icon: Calculator,
+    title: 'Accounting Services',
+    badge: 'IFRS Compliant',
+    detail: 'Full-lifecycle accounting and bookkeeping management—from daily transactions and bank reconciliations to historical backlog cleanup and fractional CFO leadership.',
+    subServices: [
+      'Account & Bank Reconciliations',
+      'Outsourced Financial Accounting',
+      'Updating of Backlog Accounts',
+      'IFRS Reporting & Fractional CFO',
+    ],
+    count: '8 Services',
+  },
+  {
+    id: 'auditing',
+    number: '02',
+    icon: ShieldCheck,
+    title: 'Auditing & Assurance',
+    badge: 'Approved UAE Auditors',
+    detail: 'Independent, partner-led assurance reinforcing stakeholder trust, fulfilling mandatory UAE Freezone license renewals, and satisfying stringent banking covenants.',
+    subServices: [
+      'External Statutory Financial Audits',
+      'Internal Audit & Risk Governance',
+      'Organisational & Debt Restructuring',
+      'Internal Control Procedure Reviews',
+    ],
+    count: '6 Services',
+  },
+  {
+    id: 'vat',
+    number: '03',
+    icon: BadgePercent,
+    title: 'VAT & UAE Corporate Tax',
+    badge: 'FTA Certified Agency',
+    detail: 'Proactive tax structuring and audit-ready FTA compliance protecting your enterprise from penalties across 9% Corporate Tax, VAT returns, and 0% Freezone QFZP relief.',
+    subServices: [
+      'UAE 9% Corporate Tax Filings',
+      'Quarterly FTA VAT Returns (Form 201)',
+      'Voluntary Disclosures & Fine Relief',
+      'Qualifying Free Zone Person (0% QFZP)',
+    ],
+    count: '10 Services',
+  },
+  {
+    id: 'software',
+    number: '04',
+    icon: Laptop,
+    title: 'Accounting Software & ERP',
+    badge: 'Certified Cloud Partners',
+    detail: 'Strategic software selection, customized Chart of Accounts configuration, automated legacy data migration, and hands-on staff training for leading cloud ERPs.',
+    subServices: [
+      'Zoho Books, QuickBooks & Xero Setup',
+      'Chart of Accounts Architecture',
+      'Legacy Data Migration & Verification',
+      'Corporate Staff Software Training',
+    ],
+    count: '2 Solutions',
+  },
 ]
 
+const services = mainServices
+
 const industries = [
-  { title: 'Small and Medium-Sized Businesses', detail: 'Accounting support to manage and grow your business.', image: `${imageBase}/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=800&q=80` },
-  { title: 'Professional Services', detail: 'Tailored accounting solutions for service-based professionals.', image: `${imageBase}/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80` },
-  { title: 'Retail and Ecommerce', detail: 'Support for retail operations and online businesses.', image: `${imageBase}/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80` },
-  { title: 'Trading and Distribution', detail: 'Accounting for trade activities and distribution networks.', image: `${imageBase}/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80` },
-  { title: 'Startups and Growing Businesses', detail: 'Flexible support for business at every stage.', image: `${imageBase}/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80` },
-  { title: 'Service-Based Companies', detail: 'Accounting assistance for various service industries.', image: `${imageBase}/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=800&q=80` },
+  {
+    id: 'sme',
+    icon: Building2,
+    badge: 'Enterprise & SME',
+    title: 'Small and Medium-Sized Businesses',
+    detail: 'Agile bookkeeping, cash flow forecasting, and FTA tax governance tailored to help growing enterprises scale sustainably.',
+  },
+  {
+    id: 'professional',
+    icon: Briefcase,
+    badge: 'Advisory & Practices',
+    title: 'Professional Services',
+    detail: 'Specialized accounting, partner draw management, and billing reconciliations for legal, consulting, and medical practices.',
+  },
+  {
+    id: 'retail',
+    icon: ShoppingCart,
+    badge: 'Omnichannel & POS',
+    title: 'Retail and Ecommerce',
+    detail: 'High-volume POS batch reconciliation, inventory valuation, payment gateway matching, and cross-border VAT returns.',
+  },
+  {
+    id: 'trading',
+    icon: Truck,
+    badge: 'Logistics & Trade',
+    title: 'Trading and Distribution',
+    detail: 'Landed cost accounting, customs duty handling, letter of credit reconciliation, and supply chain inventory controls.',
+  },
+  {
+    id: 'startups',
+    icon: Rocket,
+    badge: 'Venture & Tech',
+    title: 'Startups and Growing Businesses',
+    detail: 'Investor-ready unit economics, 0% QFZP tax structuring, fractional CFO guidance, and cloud ERP architecture.',
+  },
+  {
+    id: 'services',
+    icon: Layers,
+    badge: 'Operations & Retainers',
+    title: 'Service-Based Companies',
+    detail: 'Project-based time tracking, retainer fee accounting, contract revenue recognition, and staff utilization reporting.',
+  },
 ]
 
 const steps = [
-  { number: '01', icon: FileSearch, title: 'Understand', detail: 'We learn about your business, current accounting processes, and requirements.' },
-  { number: '02', icon: ClipboardCheck, title: 'Review', detail: 'We review the available records, identify priorities, and understand the scope of work.' },
-  { number: '03', icon: BarChart3, title: 'Organize', detail: 'We carry out the agreed accounting activities using a structured workflow.' },
-  { number: '04', icon: ShieldCheck, title: 'Support', detail: 'We provide the agreed record, reports, and ongoing accounting assistance.' },
+  {
+    number: '01',
+    stepTag: 'Phase 01 • Intake & Audit',
+    icon: FileSearch,
+    title: 'Understand & Diagnose',
+    detail: 'We conduct an exhaustive review of your entity structure, existing ledgers, chart of accounts, and current tax status.',
+    points: [
+      'Entity jurisdiction & license intake',
+      'Historical ledger & account mapping',
+    ],
+  },
+  {
+    number: '02',
+    stepTag: 'Phase 02 • Gap Scoping',
+    icon: ClipboardCheck,
+    title: 'Review & Prioritize',
+    detail: 'We identify backlog bottlenecks, tax liability risks, missing invoices, and establish priority workflows before ledger entry begins.',
+    points: [
+      'Reconciliation gap diagnostic report',
+      'FTA compliance & filing calendar',
+    ],
+  },
+  {
+    number: '03',
+    stepTag: 'Phase 03 • Structured Execution',
+    icon: BarChart3,
+    title: 'Execute & Reconcile',
+    detail: 'Our dual-shore accounting engine updates backlogs, verifies bank feeds, and applies 4-eye partner oversight to every ledger line.',
+    points: [
+      'Clean IFRS-compliant general ledger',
+      'Multi-tier 4-eye verification protocol',
+    ],
+  },
+  {
+    number: '04',
+    stepTag: 'Phase 04 • Continuous Governance',
+    icon: ShieldCheck,
+    title: 'Support & CFO Advisory',
+    detail: 'We deliver board-level monthly closures, accurate FTA VAT & corporate tax returns, and ongoing fractional CFO guidance.',
+    points: [
+      'Month-end closure binders in 5 days',
+      'Zero-penalty statutory filing guarantee',
+    ],
+  },
 ]
 
 const testimonials = [
@@ -183,11 +317,26 @@ const insights = [
   { category: 'Bookkeeping', title: 'How Organized Bookkeeping Supports Better Decisions', detail: 'Learn how consistent bookkeeping helps you understand your finances and plan for the future.', time: '5 min read', image: `${imageBase}/photo-1554224154-26032ffc0d07?auto=format&fit=crop&w=1000&q=85` },
 ]
 
-function Logo({ light = false }) {
+function Logo({ light = false, onNavigate }) {
   return (
-    <a href="#home" className={`logo ${light ? 'logo-light' : ''}`} aria-label="Acetrix home">
-      <span className="logo-mark" aria-hidden="true"><span /><span /><span /></span>
-      <span className="logo-copy"><strong>Acetrix</strong><small>ACCOUNTING. ADVISORY.</small></span>
+    <a
+      href="#/"
+      className={`logo ${light ? 'logo-light' : ''}`}
+      aria-label="Acetrix Home"
+      onClick={(e) => {
+        if (onNavigate) {
+          e.preventDefault()
+          onNavigate('home')
+        }
+      }}
+    >
+      <img
+        src={light ? '/images/acetrix-logo-white.png' : '/images/acetrix-logo.png'}
+        alt="Acetrix Accounting & Advisory"
+        className="site-logo-image"
+        width="170"
+        height="44"
+      />
     </a>
   )
 }
@@ -201,9 +350,10 @@ function SectionIntro({ eyebrow, title, light = false }) {
   )
 }
 
-function Header() {
+function Header({ currentRoute = 'home', onNavigate }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false)
+  const [mobileActiveCategory, setMobileActiveCategory] = useState(null)
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false)
   const [activeCategoryIndex, setActiveCategoryIndex] = useState(0)
   const dropdownTimeoutRef = useRef(null)
@@ -234,9 +384,9 @@ function Header() {
   return (
     <header className="site-header">
       <div className="container nav-wrap">
-        <Logo />
+        <Logo onNavigate={onNavigate} />
         <nav className="desktop-nav" aria-label="Primary navigation">
-          {navItems.map((item, index) => {
+          {navItems.map((item) => {
             if (item.label === 'Services') {
               return (
                 <div
@@ -246,10 +396,15 @@ function Header() {
                   onMouseLeave={handleDropdownLeave}
                 >
                   <a
-                    href="#services"
-                    className={`nav-dropdown-trigger ${servicesDropdownOpen ? 'open' : ''}`}
+                    href={item.href}
+                    className={`nav-dropdown-trigger ${servicesDropdownOpen ? 'open' : ''} ${currentRoute === 'services' ? 'active' : ''}`}
                     aria-expanded={servicesDropdownOpen}
                     aria-haspopup="true"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      if (onNavigate) onNavigate('services')
+                      setServicesDropdownOpen(false)
+                    }}
                   >
                     <span>Services</span>
                     <ChevronDown size={14} className={`nav-chevron ${servicesDropdownOpen ? 'rotate' : ''}`} />
@@ -269,7 +424,11 @@ function Header() {
                               role="menuitem"
                               className={`service-cat-tab ${activeCategoryIndex === idx ? 'active' : ''}`}
                               onMouseEnter={() => setActiveCategoryIndex(idx)}
-                              onClick={() => setActiveCategoryIndex(idx)}
+                              onClick={() => {
+                                setActiveCategoryIndex(idx)
+                                if (onNavigate) onNavigate('services', cat.id)
+                                setServicesDropdownOpen(false)
+                              }}
                             >
                               <span>{cat.name}</span>
                               <ChevronRight size={14} className="cat-arrow" />
@@ -291,9 +450,13 @@ function Header() {
                             {serviceCategories[activeCategoryIndex].items.map((subItem) => (
                               <a
                                 key={subItem}
-                                href="#services"
+                                href="#/services"
                                 className="service-subitem-link"
-                                onClick={() => setServicesDropdownOpen(false)}
+                                onClick={(e) => {
+                                  e.preventDefault()
+                                  if (onNavigate) onNavigate('services', serviceCategories[activeCategoryIndex].id)
+                                  setServicesDropdownOpen(false)
+                                }}
                               >
                                 <span>{subItem}</span>
                                 <ArrowRight size={13} className="subitem-arrow" />
@@ -308,13 +471,30 @@ function Header() {
               )
             }
             return (
-              <a className={index === 0 ? 'active' : ''} key={item.href} href={item.href}>
+              <a
+                className={currentRoute === item.route ? 'active' : ''}
+                key={item.label}
+                href={item.href}
+                onClick={(e) => {
+                  e.preventDefault()
+                  if (onNavigate) onNavigate(item.route)
+                }}
+              >
                 {item.label}
               </a>
             )
           })}
         </nav>
-        <a className="button button-primary nav-cta" href="#contact">Book a Consultation <ArrowRight size={15} /></a>
+        <a
+          className="button button-primary nav-cta"
+          href="#/contact"
+          onClick={(e) => {
+            e.preventDefault()
+            if (onNavigate) onNavigate('contact')
+          }}
+        >
+          Book a Consultation <ArrowRight size={15} />
+        </a>
         <button
           className="menu-toggle"
           type="button"
@@ -339,40 +519,125 @@ function Header() {
                     onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
                     aria-expanded={mobileServicesOpen}
                   >
-                    <span>Services</span>
-                    <ChevronDown size={16} className={`dropdown-chevron ${mobileServicesOpen ? 'rotate' : ''}`} />
+                    <span className={currentRoute === 'services' ? 'active-text' : ''}>Services</span>
+                    <ChevronDown size={18} className={`dropdown-chevron ${mobileServicesOpen ? 'rotate' : ''}`} />
                   </button>
+
                   {mobileServicesOpen && (
                     <div className="mobile-services-accordion">
-                      {serviceCategories.map((cat) => (
-                        <div key={cat.id} className="mobile-category-group">
-                          <strong className="mobile-category-title">{cat.name}</strong>
-                          <div className="mobile-category-subitems">
-                            {cat.items.map((subItem) => (
-                              <a
-                                key={subItem}
-                                href="#services"
-                                className="mobile-subitem-link"
-                                onClick={closeMobile}
-                              >
-                                {subItem}
-                              </a>
-                            ))}
-                          </div>
+                      {/* Direct Link to main Services Overview Page */}
+                      <a
+                        href="#/services"
+                        className="mobile-services-overview-card"
+                        onClick={(e) => {
+                          e.preventDefault()
+                          if (onNavigate) onNavigate('services')
+                          closeMobile()
+                        }}
+                      >
+                        <span className="overview-icon-badge">
+                          <Layers size={16} />
+                        </span>
+                        <div>
+                          <strong>Explore All 26 Services</strong>
+                          <small>Overview & Scope Estimator</small>
                         </div>
-                      ))}
+                        <ArrowRight size={14} className="overview-arrow" />
+                      </a>
+
+                      {/* 4 Interactive Collapsible Category Folders */}
+                      <div className="mobile-category-list">
+                        {serviceCategories.map((cat) => {
+                          const isCatOpen = mobileActiveCategory === cat.id
+                          return (
+                            <div
+                              key={cat.id}
+                              className={`mobile-category-folder ${isCatOpen ? 'open' : ''}`}
+                            >
+                              <button
+                                type="button"
+                                className="mobile-category-folder-btn"
+                                onClick={() =>
+                                  setMobileActiveCategory(isCatOpen ? null : cat.id)
+                                }
+                                aria-expanded={isCatOpen}
+                              >
+                                <span className="cat-folder-name">{cat.name}</span>
+                                <div className="cat-folder-meta">
+                                  <span className="cat-count-badge">
+                                    {cat.items.length}
+                                  </span>
+                                  <ChevronDown
+                                    size={15}
+                                    className={`cat-folder-chevron ${isCatOpen ? 'rotate' : ''}`}
+                                  />
+                                </div>
+                              </button>
+
+                              {isCatOpen && (
+                                <div className="mobile-category-sublist">
+                                  {cat.items.map((subItem) => (
+                                    <a
+                                      key={subItem}
+                                      href="#/services"
+                                      className="mobile-subitem-link"
+                                      onClick={(e) => {
+                                        e.preventDefault()
+                                        if (onNavigate) onNavigate('services', cat.id)
+                                        closeMobile()
+                                      }}
+                                    >
+                                      <span>{subItem}</span>
+                                      <ArrowRight size={12} className="mobile-subitem-arrow" />
+                                    </a>
+                                  ))}
+                                  <a
+                                    href="#/services"
+                                    className="mobile-cat-all-link"
+                                    onClick={(e) => {
+                                      e.preventDefault()
+                                      if (onNavigate) onNavigate('services', cat.id)
+                                      closeMobile()
+                                    }}
+                                  >
+                                    <span>View all {cat.name} ({cat.items.length})</span>
+                                    <ArrowRight size={12} />
+                                  </a>
+                                </div>
+                              )}
+                            </div>
+                          )
+                        })}
+                      </div>
                     </div>
                   )}
                 </div>
               )
             }
             return (
-              <a key={item.href} href={item.href} onClick={closeMobile}>
+              <a
+                key={item.label}
+                href={item.href}
+                className={currentRoute === item.route ? 'active' : ''}
+                onClick={(e) => {
+                  e.preventDefault()
+                  if (onNavigate) onNavigate(item.route)
+                  closeMobile()
+                }}
+              >
                 {item.label}
               </a>
             )
           })}
-          <a className="button button-primary" href="#contact" onClick={closeMobile}>
+          <a
+            className="button button-primary"
+            href="#/contact"
+            onClick={(e) => {
+              e.preventDefault()
+              if (onNavigate) onNavigate('contact')
+              closeMobile()
+            }}
+          >
             Book a Consultation <ArrowRight size={15} />
           </a>
         </nav>
@@ -381,28 +646,71 @@ function Header() {
   )
 }
 
-function Hero() {
+function Hero({ onNavigate }) {
   return (
     <section className="hero" id="home">
       <div className="hero-grid">
         <div className="hero-content">
-          <p className="eyebrow">YOUR TRUSTED FINANCIAL PARTNER</p>
-          <h1>
+          <div className="hero-badge">
+            <span className="hero-badge-dot" aria-hidden="true" />
+            <span>YOUR TRUSTED FINANCIAL PARTNER</span>
+          </div>
+
+          <h1 className="hero-title">
             Clarity in Numbers.<br />
-            <span>Confidence in<br className="desktop-only" /> Every Decision.</span>
+            <span className="hero-title-highlight">Confidence in Every Decision.</span>
           </h1>
+
           <p className="hero-body">
-            Acetrix helps businesses simplify their accounting, streamline financial operations, and make confident decisions with reliable accounting and financial reporting services.
+            Acetrix delivers institutional-grade accounting, proactive UAE FTA tax compliance, and boardroom financial clarity for ambitious enterprises across the UAE and global corridors.
           </p>
+
           <div className="hero-actions">
-            <a className="button button-primary" href="#services">
-              Explore Our Services <ArrowRight size={18} />
+            <a
+              className="button button-primary"
+              href="#/services"
+              onClick={(e) => {
+                if (onNavigate) {
+                  e.preventDefault()
+                  onNavigate('services')
+                }
+              }}
+            >
+              <span>Explore Our Services</span>
+              <ArrowRight size={17} />
             </a>
-            <a className="button button-outline" href="#contact">
-              Talk to Our Experts
+            <a
+              className="button button-outline"
+              href="#/contact"
+              onClick={(e) => {
+                if (onNavigate) {
+                  e.preventDefault()
+                  onNavigate('contact')
+                }
+              }}
+            >
+              <span>Talk to Our Experts</span>
             </a>
           </div>
+
+          <div className="hero-trust-metrics">
+            <div className="hero-metric-item">
+              <strong>500+</strong>
+              <span>Enterprises Advised</span>
+            </div>
+            <div className="hero-metric-divider" aria-hidden="true" />
+            <div className="hero-metric-item">
+              <strong>99.8%</strong>
+              <span>On-Time FTA Filings</span>
+            </div>
+            <div className="hero-metric-divider" aria-hidden="true" />
+            <div className="hero-metric-item">
+              <strong>Pan-UAE</strong>
+              <span>Mainland & Freezones</span>
+            </div>
+          </div>
         </div>
+
         <div className="hero-visual">
           <img
             src="/images/hero-workspace.png"
@@ -410,22 +718,6 @@ function Hero() {
             className="hero-image"
           />
           <div className="hero-overlay" />
-          <div className="growth-card">
-            <span className="card-title">Financial Growth</span>
-            <div className="mini-bars" aria-hidden="true">
-              <i /><i /><i /><i /><i /><i /><i /><i />
-            </div>
-            <div className="growth-stat">
-              <strong>+18%</strong>
-              <small>vs last year</small>
-            </div>
-          </div>
-          <div className="check-card">
-            <span><Check size={14} /> Organize</span>
-            <span><Check size={14} /> Reconcile</span>
-            <span><Check size={14} /> Report</span>
-            <span><Check size={14} /> Grow</span>
-          </div>
         </div>
       </div>
     </section>
@@ -482,7 +774,8 @@ function UAEPresence() {
   ]
 
   return (
-    <section className="section uae-section" id="uae-presence">
+    <section className="section uae-section" id="location">
+      <span id="uae-presence" className="sr-only" />
       <div className="container uae-grid">
         <div className="uae-visual-col">
           {/* Interactive Hub Navigation Tabs */}
@@ -885,37 +1178,94 @@ function LeadershipVision() {
   )
 }
 
-function Services() {
+function Services({ onNavigate }) {
   return (
     <section className="section services-section" id="services">
       <div className="services-ambient-glow services-ambient-glow-1" aria-hidden="true" />
       <div className="services-ambient-glow services-ambient-glow-2" aria-hidden="true" />
       <div className="container relative z-10">
-        <SectionIntro eyebrow="What we do" title="Accounting Solutions for Your Business" />
+        <SectionIntro
+          eyebrow="What We Do"
+          title="Core Financial & Advisory Services"
+        />
+
         <div className="services-grid">
-          {services.map(({ icon: Icon, title, detail }, index) => {
-            const indexStr = String(index + 1).padStart(2, '0')
-            return (
-              <article className="service-card glass-card" key={title}>
-                <div className="service-card-header">
-                  <span className="service-icon-wrap">
-                    <Icon size={22} />
+          {mainServices.map(({ id, number, icon: Icon, title, badge, detail, subServices, count }) => (
+            <article className="service-card glass-card" key={id}>
+              <div className="service-card-header">
+                <span className="service-icon-wrap">
+                  <Icon size={24} />
+                </span>
+                <span className="service-index">{number}</span>
+              </div>
+
+              <div className="service-card-meta">
+                <span className="service-pill-tag">{badge}</span>
+              </div>
+
+              <h3 className="service-card-title">{title}</h3>
+              <p className="service-card-detail">{detail}</p>
+
+              <div className="service-subservices-box">
+                <span className="service-subservices-label">Key Capabilities</span>
+                <ul className="service-features-list">
+                  {subServices.map((sub, i) => (
+                    <li key={i}>
+                      <Check size={14} className="service-feature-check" />
+                      <span>{sub}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="service-card-footer">
+                <button
+                  type="button"
+                  className="service-cta"
+                  onClick={() => {
+                    if (onNavigate) {
+                      onNavigate('services', id)
+                    } else {
+                      window.location.hash = `#/services?cat=${id}`
+                    }
+                  }}
+                  aria-label={`Explore ${title}`}
+                >
+                  <span className="service-cta-text">
+                    Explore Services <span className="service-cta-count">({count})</span>
                   </span>
-                  <span className="service-index">{indexStr}</span>
-                </div>
-                <h3>{title}</h3>
-                <p>{detail}</p>
-                <div className="service-card-footer">
-                  <a className="service-cta" href="#contact">
-                    <span>Learn More</span>
-                    <span className="service-cta-arrow">
-                      <ArrowRight size={14} />
-                    </span>
-                  </a>
-                </div>
-              </article>
-            )
-          })}
+                  <span className="service-cta-arrow">
+                    <ArrowRight size={14} />
+                  </span>
+                </button>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {/* Practice Directory Banner */}
+        <div className="services-bottom-banner">
+          <div className="services-banner-content">
+            <span className="services-banner-badge">Complete Practice Directory</span>
+            <h4>Need specialized scope or custom accounting packages?</h4>
+            <p>
+              Explore our full directory of 26 specialized services across Accounting, Auditing, UAE Tax, and Cloud ERP.
+            </p>
+          </div>
+          <button
+            type="button"
+            className="button button-primary services-banner-btn"
+            onClick={() => {
+              if (onNavigate) {
+                onNavigate('services')
+              } else {
+                window.location.hash = '#/services'
+              }
+            }}
+          >
+            <span>Explore All 26 Services</span>
+            <ArrowRight size={16} />
+          </button>
         </div>
       </div>
     </section>
@@ -940,12 +1290,176 @@ function WhyAcetrix() {
   )
 }
 
-function Industries() {
-  return <section className="section" id="industries"><div className="container"><SectionIntro eyebrow="Our industries" title="Industries We Serve" /><div className="industry-grid">{industries.map(industry => <article className="industry-card" key={industry.title}><img src={industry.image} alt="" /><div><h3>{industry.title}</h3><p>{industry.detail}</p><a href="#contact" aria-label={`Learn more about ${industry.title}`}><ArrowUpRight size={17} /></a></div></article>)}</div></div></section>
+function Industries({ onNavigate }) {
+  return (
+    <section className="section industries-section" id="industries">
+      <div className="container">
+        <SectionIntro eyebrow="Our Industries" title="Industries We Serve" />
+        <div className="industry-grid">
+          {industries.map(({ id, icon: Icon, badge, title, detail }) => (
+            <article
+              className="industry-card"
+              key={title}
+              onClick={() => {
+                if (onNavigate) onNavigate('industries', id)
+                else window.location.hash = '#/industries'
+              }}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  if (onNavigate) onNavigate('industries', id)
+                  else window.location.hash = '#/industries'
+                }
+              }}
+            >
+              <div className="industry-card-header">
+                <span className="industry-icon-wrap">
+                  <Icon size={22} strokeWidth={2} />
+                </span>
+                <span className="industry-badge">{badge}</span>
+              </div>
+
+              <h3 className="industry-card-title">{title}</h3>
+              <p className="industry-card-detail">{detail}</p>
+
+              <div className="industry-card-footer">
+                <span className="industry-cta-label">Explore Sector Advisory</span>
+                <span className="industry-arrow-btn" aria-label={`Learn more about ${title}`}>
+                  <ArrowUpRight size={16} />
+                </span>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {/* Bottom Practice Banner */}
+        <div className="industry-bottom-banner">
+          <div className="industry-banner-copy">
+            <span className="industry-banner-tag">Custom Industry Frameworks</span>
+            <h4>Need specialized regulatory or industry accounting?</h4>
+            <p>
+              Explore our comprehensive sector playbooks covering Tech Startups, Healthcare, Contracting, Hospitality, and Retail.
+            </p>
+          </div>
+          <button
+            type="button"
+            className="button button-primary industry-banner-btn"
+            onClick={() => {
+              if (onNavigate) onNavigate('industries')
+              else window.location.hash = '#/industries'
+            }}
+          >
+            <span>View All Industry Solutions</span>
+            <ArrowRight size={15} />
+          </button>
+        </div>
+      </div>
+    </section>
+  )
 }
 
-function Process() {
-  return <section className="section section-mist process-section"><div className="container"><div className="process-heading"><p className="eyebrow">How we work</p><h2>A Straightforward Approach to Accounting</h2></div><div className="process-line">{steps.map(({ number, icon: Icon, title, detail }, index) => <div className="process-step" key={number}><div className="step-top"><span>{number}</span>{index < steps.length - 1 && <i />}</div><span className="process-icon"><Icon size={21} /></span><h3>{title}</h3><p>{detail}</p></div>)}</div></div></section>
+function Process({ onNavigate }) {
+  return (
+    <section className="section process-section" id="process">
+      <div className="container">
+        <div className="process-header-wrap">
+          <SectionIntro
+            eyebrow="How We Work"
+            title="A Straightforward Approach to Financial Precision"
+          />
+          <p className="process-section-lead">
+            Our structured 4-phase methodology ensures zero regulatory surprises, rapid turnaround on historical books, and total fiduciary control from day one.
+          </p>
+        </div>
+
+        <div className="process-cards-grid">
+          {steps.map(({ number, stepTag, icon: Icon, title, detail, points }, index) => (
+            <div className="process-card" key={number}>
+              <div className="process-card-header">
+                <span className="process-number-badge">{number}</span>
+                <div className="process-icon-box">
+                  <Icon size={20} strokeWidth={2} />
+                </div>
+              </div>
+
+              <span className="process-phase-tag">{stepTag}</span>
+              <h3 className="process-card-title">{title}</h3>
+              <p className="process-card-text">{detail}</p>
+
+              <ul className="process-card-bullets">
+                {points.map((pt, i) => (
+                  <li key={i}>
+                    <Check size={13} className="process-bullet-check" />
+                    <span>{pt}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="process-card-footer">
+                <span className="process-step-indicator">
+                  {index < 3 ? `Phase 0${index + 1} of 04` : 'Final Phase • Ongoing'}
+                </span>
+                {index < 3 && (
+                  <span className="process-next-arrow" aria-hidden="true">
+                    <ArrowRight size={13} />
+                  </span>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Process Trust Bar */}
+        <div className="process-bottom-trust">
+          <div className="process-trust-item">
+            <span className="trust-icon-pill">
+              <Clock3 size={17} />
+            </span>
+            <div>
+              <strong>7–14 Days Turnaround</strong>
+              <small>Rapid onboarding & ledger takeover</small>
+            </div>
+          </div>
+
+          <div className="process-trust-item">
+            <span className="trust-icon-pill">
+              <ShieldCheck size={17} />
+            </span>
+            <div>
+              <strong>Zero Disruption Guarantee</strong>
+              <small>No downtime on your daily billing</small>
+            </div>
+          </div>
+
+          <div className="process-trust-item">
+            <span className="trust-icon-pill">
+              <UsersRound size={17} />
+            </span>
+            <div>
+              <strong>Dedicated UAE Partner</strong>
+              <small>Direct CA oversight on all accounts</small>
+            </div>
+          </div>
+
+          <a
+            href="#contact"
+            className="button button-primary process-trust-btn"
+            onClick={(e) => {
+              if (onNavigate) {
+                e.preventDefault()
+                onNavigate('contact')
+              }
+            }}
+          >
+            <span>Start Your Onboarding</span>
+            <ArrowRight size={15} />
+          </a>
+        </div>
+      </div>
+    </section>
+  )
 }
 
 function Testimonials() {
@@ -955,7 +1469,47 @@ function Testimonials() {
 
 function FAQ() {
   const [active, setActive] = useState(0)
-  return <section className="section section-mist faq-section"><div className="container"><div className="faq-heading"><p className="eyebrow">FAQ</p><h2>Frequently Asked Questions</h2></div><div className="faq-grid">{faqs.map(([question, answer], index) => <div className={`faq-item ${active === index ? 'open' : ''}`} key={question}><button type="button" onClick={() => setActive(active === index ? -1 : index)} aria-expanded={active === index}><span>{question}</span><ChevronDown size={16} /></button>{active === index && <div className="faq-answer"><p>{answer}</p></div>}</div>)}</div></div></section>
+
+  const renderFaqItem = ([question, answer], originalIndex) => (
+    <div
+      className={`faq-item ${active === originalIndex ? 'open' : ''}`}
+      key={question}
+      style={{ order: originalIndex }}
+    >
+      <button
+        type="button"
+        onClick={() => setActive(active === originalIndex ? -1 : originalIndex)}
+        aria-expanded={active === originalIndex}
+      >
+        <span>{question}</span>
+        <ChevronDown size={16} />
+      </button>
+      {active === originalIndex && (
+        <div className="faq-answer">
+          <p>{answer}</p>
+        </div>
+      )}
+    </div>
+  )
+
+  return (
+    <section className="section section-mist faq-section">
+      <div className="container">
+        <div className="faq-heading">
+          <p className="eyebrow">FAQ</p>
+          <h2>Frequently Asked Questions</h2>
+        </div>
+        <div className="faq-grid">
+          <div className="faq-col">
+            {faqs.filter((_, i) => i % 2 === 0).map((item) => renderFaqItem(item, faqs.indexOf(item)))}
+          </div>
+          <div className="faq-col">
+            {faqs.filter((_, i) => i % 2 !== 0).map((item) => renderFaqItem(item, faqs.indexOf(item)))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
 }
 
 function Insights() {
@@ -992,13 +1546,13 @@ function Field({ label, name, type = 'text', value, onChange, error, placeholder
   return <label className={`field ${error ? 'has-error' : ''}`}><span>{label}</span>{type === 'select' ? <select name={name} value={value} onChange={onChange}><option value="">{options[0]}</option>{options.slice(1).map(option => <option value={option} key={option}>{option}</option>)}</select> : type === 'textarea' ? <textarea name={name} value={value} onChange={onChange} placeholder={placeholder} rows="3" /> : <input name={name} type={type} value={value} onChange={onChange} placeholder={placeholder} />}{error && <small className="field-error">{error}</small>}</label>
 }
 
-function Footer() {
+function Footer({ onNavigate }) {
   const currentYear = new Date().getFullYear()
   return (
     <footer className="site-footer">
       <div className="container footer-grid">
         <div className="footer-brand">
-          <Logo light />
+          <Logo light onNavigate={onNavigate} />
           <p className="footer-description">
             Acetrix helps businesses simplify accounting, ensure UAE FTA tax compliance, improve financial visibility, and manage regional operations with confidence.
           </p>
@@ -1015,7 +1569,17 @@ function Footer() {
           <ul className="footer-links-list">
             {footerQuickLinks.map(item => (
               <li key={item.label}>
-                <a href={item.href}>{item.label}</a>
+                <a
+                  href={item.href}
+                  onClick={(e) => {
+                    if (onNavigate && item.route) {
+                      e.preventDefault()
+                      onNavigate(item.route)
+                    }
+                  }}
+                >
+                  {item.label}
+                </a>
               </li>
             ))}
           </ul>
@@ -1026,7 +1590,17 @@ function Footer() {
           <ul className="footer-links-list">
             {footerServices.map(item => (
               <li key={item.label}>
-                <a href={item.href}>{item.label}</a>
+                <a
+                  href="#/services"
+                  onClick={(e) => {
+                    if (onNavigate) {
+                      e.preventDefault()
+                      onNavigate('services', item.category)
+                    }
+                  }}
+                >
+                  {item.label}
+                </a>
               </li>
             ))}
           </ul>
@@ -1056,7 +1630,16 @@ function Footer() {
               <span>Mon - Fri: 9:00 AM - 6:00 PM GST</span>
             </div>
           </div>
-          <a className="footer-cta-btn" href="#contact">
+          <a
+            className="footer-cta-btn"
+            href="#/contact"
+            onClick={(e) => {
+              if (onNavigate) {
+                e.preventDefault()
+                onNavigate('contact')
+              }
+            }}
+          >
             Book a Consultation <ArrowRight size={16} />
           </a>
         </div>
@@ -1065,7 +1648,15 @@ function Footer() {
       <div className="footer-bottom-bar">
         <div className="container footer-bottom-inner">
           <span className="copyright-text">
-            © {currentYear} Acetrix. All rights reserved.
+            © All Rights Reserved | Developed by{' '}
+            <a
+              href="https://mostech.ae/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-developer-link"
+            >
+              Mostech Business Solutions
+            </a>
           </span>
           <div className="legal-links">
             <a href="#contact">Privacy Policy</a>
@@ -1078,27 +1669,81 @@ function Footer() {
   )
 }
 
+function getRouteFromHash() {
+  const hash = window.location.hash.toLowerCase()
+  if (hash.includes('about')) return { route: 'about', category: null }
+  if (hash.includes('service')) {
+    const match = hash.match(/cat=([a-z]+)/)
+    return { route: 'services', category: match ? match[1] : 'accounting' }
+  }
+  if (hash.includes('location')) return { route: 'locations', category: null }
+  if (hash.includes('industr')) return { route: 'industries', category: null }
+  if (hash.includes('contact')) return { route: 'contact', category: null }
+  return { route: 'home', category: null }
+}
+
 export default function App() {
+  const [routeInfo, setRouteInfo] = useState(getRouteFromHash)
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setRouteInfo(getRouteFromHash())
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+    window.addEventListener('hashchange', handleHashChange)
+    return () => window.removeEventListener('hashchange', handleHashChange)
+  }, [])
+
+  const navigateTo = (route, category = null) => {
+    let newHash = `#/${route}`
+    if (category) newHash += `?cat=${category}`
+    window.location.hash = newHash
+    setRouteInfo({ route, category })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   return (
     <>
-      <Header />
+      <Header currentRoute={routeInfo.route} onNavigate={navigateTo} />
       <main>
-        <Hero />
-        <TrustStrip />
-        <UAEPresence />
-        <ApprovedFreezones />
-        <LeadershipVision />
-        <Services />
-        <WhyAcetrix />
-        <Industries />
-        <Process />
-        <Testimonials />
-        <FAQ />
-        <Insights />
-        <Contact />
+        {routeInfo.route === 'about' && <AboutPage onNavigate={navigateTo} />}
+        {routeInfo.route === 'services' && (
+          <ServicesPage
+            onNavigate={navigateTo}
+            initialCategory={routeInfo.category || 'accounting'}
+          />
+        )}
+        {routeInfo.route === 'locations' && <LocationsPage onNavigate={navigateTo} />}
+        {routeInfo.route === 'industries' && <IndustriesPage onNavigate={navigateTo} />}
+        {routeInfo.route === 'contact' && <ContactPage onNavigate={navigateTo} />}
+        {routeInfo.route === 'home' && (
+          <>
+            <Hero onNavigate={navigateTo} />
+            <TrustStrip />
+            <UAEPresence />
+            <ApprovedFreezones />
+            <LeadershipVision />
+            <Services onNavigate={navigateTo} />
+            <WhyAcetrix />
+            <Industries onNavigate={navigateTo} />
+            <Process onNavigate={navigateTo} />
+            <Testimonials />
+            <FAQ />
+            <Insights />
+            <Contact />
+          </>
+        )}
       </main>
-      <Footer />
-      <a className="floating-chat" href="#contact" aria-label="Chat with Acetrix">
+      <Footer onNavigate={navigateTo} />
+      <a
+        className="floating-chat"
+        href="#/contact"
+        onClick={(e) => {
+          e.preventDefault()
+          navigateTo('contact')
+        }}
+        aria-label="Chat with Acetrix"
+      >
         <MessageCircle size={22} />
       </a>
     </>
