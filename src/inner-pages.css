@@ -834,6 +834,7 @@
 
 .services-main-section {
   padding: 60px 0;
+  scroll-margin-top: 100px;
 }
 
 .active-pillar-banner {

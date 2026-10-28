@@ -1724,8 +1724,20 @@ export default function App() {
 
   useEffect(() => {
     const handleHashChange = () => {
-      setRouteInfo(getRouteFromHash())
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      const next = getRouteFromHash()
+      setRouteInfo(next)
+      if (next.route === 'services' && next.category) {
+        setTimeout(() => {
+          const target = document.getElementById('services-main') || document.querySelector('.services-main-section')
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+          }
+        }, 80)
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
     }
     window.addEventListener('hashchange', handleHashChange)
     return () => window.removeEventListener('hashchange', handleHashChange)
@@ -1736,7 +1748,19 @@ export default function App() {
     if (category) newHash += `?cat=${category}`
     window.location.hash = newHash
     setRouteInfo({ route, category })
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+
+    if (route === 'services' && category) {
+      setTimeout(() => {
+        const target = document.getElementById('services-main') || document.querySelector('.services-main-section')
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+        }
+      }, 80)
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
   }
 
   return (
@@ -1746,6 +1770,7 @@ export default function App() {
         {routeInfo.route === 'about' && <AboutPage onNavigate={navigateTo} />}
         {routeInfo.route === 'services' && (
           <ServicesPage
+            key={routeInfo.category || 'services-default'}
             onNavigate={navigateTo}
             initialCategory={routeInfo.category || 'accounting'}
           />

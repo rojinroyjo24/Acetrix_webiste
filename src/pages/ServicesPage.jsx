@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   FileCheck2,
   BriefcaseBusiness,
@@ -25,6 +25,13 @@ import {
 export default function ServicesPage({ onNavigate, initialCategory = 'accounting' }) {
   const [activeCategory, setActiveCategory] = useState(initialCategory)
   const [searchQuery, setSearchQuery] = useState('')
+
+  useEffect(() => {
+    if (initialCategory) {
+      setActiveCategory(initialCategory)
+      setSearchQuery('')
+    }
+  }, [initialCategory])
 
   const pillarsData = [
     {
@@ -365,7 +372,11 @@ export default function ServicesPage({ onNavigate, initialCategory = 'accounting
                 key={p.id}
                 type="button"
                 className={`service-filter-pill ${activeCategory === p.id ? 'active' : ''}`}
-                onClick={() => { setActiveCategory(p.id); setSearchQuery('') }}
+                onClick={() => {
+                  setActiveCategory(p.id)
+                  setSearchQuery('')
+                  window.history.replaceState(null, '', `#/services?cat=${p.id}`)
+                }}
               >
                 <span>{p.title}</span>
                 <span className="pill-count">{p.services.length}</span>
@@ -376,7 +387,7 @@ export default function ServicesPage({ onNavigate, initialCategory = 'accounting
       </section>
 
       {/* Main Service Pillar Section */}
-      <section className="section services-main-section">
+      <section className="section services-main-section" id="services-main">
         <div className="container">
           {/* Active Pillar Header Card */}
           <div className="active-pillar-banner">
