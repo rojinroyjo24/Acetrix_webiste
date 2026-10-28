@@ -2,8 +2,10 @@ import { useState } from 'react'
 import {
   ArrowRight,
   ArrowUpRight,
+  Award,
   BarChart3,
   BriefcaseBusiness,
+  Building2,
   Calculator,
   Check,
   ChevronDown,
@@ -11,6 +13,7 @@ import {
   ChevronRight,
   ClipboardCheck,
   Clock3,
+  Eye,
   FileBarChart,
   FileCheck2,
   FileSearch,
@@ -23,8 +26,10 @@ import {
   MessageCircle,
   Phone,
   Quote,
+  Rocket,
   ShieldCheck,
   Sparkles,
+  Target,
   TrendingUp,
   UsersRound,
   X,
@@ -221,6 +226,43 @@ function TrustStrip() {
 }
 
 function UAEPresence() {
+  const [activeLocation, setActiveLocation] = useState(0)
+
+  const locations = [
+    {
+      id: 'dubai',
+      name: 'Dubai',
+      flag: '🇦🇪',
+      role: 'Commercial & Freezones Hub',
+      jurisdiction: 'DMCC • DIFC • DAFZA • Mainland',
+      desc: 'UAE Corporate Tax (9%), FTA VAT filings, and tailored mainland & freezone audit compliance.',
+    },
+    {
+      id: 'abudhabi',
+      name: 'Abu Dhabi',
+      flag: '🇦🇪',
+      role: 'Capital Advisory & ADGM',
+      jurisdiction: 'ADGM & Abu Dhabi Mainland',
+      desc: 'IFRS statutory audit, financial restructuring, and regulatory advisory for capital market entities.',
+    },
+    {
+      id: 'sharjah',
+      name: 'Sharjah',
+      flag: '🇦🇪',
+      role: 'Trade & Industrial Branch',
+      jurisdiction: 'SAIF Zone • HFZA • Mainland',
+      desc: 'Trade inventory valuation, cost accounting, and SME bookkeeping across the Northern Emirates.',
+    },
+    {
+      id: 'india',
+      name: 'India Delivery',
+      flag: '🇮🇳',
+      role: 'Global Offshore Center',
+      jurisdiction: 'Dual-Shore Scalability',
+      desc: 'Rapid backlog clearing, high-volume bookkeeping, and seamless dual-shore execution.',
+    },
+  ]
+
   const highlights = [
     { title: 'FTA Tax & VAT Compliant', detail: 'End-to-end UAE Corporate Tax (9%) & VAT filing support.' },
     { title: 'Mainland & Freezones', detail: 'Tailored accounting for DMCC, DIFC, ADGM, DAFZA & Mainland.' },
@@ -232,22 +274,80 @@ function UAEPresence() {
     <section className="section uae-section" id="uae-presence">
       <div className="container uae-grid">
         <div className="uae-visual-col">
-          <div className="uae-locations-banner">
-            <span className="uae-pulse-dot" aria-hidden="true" />
-            <span>Dubai | Abu Dhabi | Sharjah | India</span>
+          {/* Interactive Hub Navigation Tabs */}
+          <div className="uae-hub-nav" role="tablist" aria-label="Acetrix Regional Presence Hubs">
+            {locations.map((loc, idx) => (
+              <button
+                key={loc.id}
+                type="button"
+                role="tab"
+                aria-selected={activeLocation === idx}
+                className={`uae-hub-tab ${activeLocation === idx ? 'active' : ''}`}
+                onClick={() => setActiveLocation(idx)}
+              >
+                <span className="hub-flag" aria-hidden="true">{loc.flag}</span>
+                <span className="hub-name">{loc.name}</span>
+                {activeLocation === idx && <span className="hub-active-dot" aria-hidden="true" />}
+              </button>
+            ))}
           </div>
+
+          {/* 3D UAE Map Showcase Card */}
           <div className="uae-map-card">
-            <img
-              src="/images/uae-presence-map.jpg"
-              alt="Acetrix UAE and India Offices Footprint Map"
-              className="uae-map-image"
-              loading="lazy"
-            />
-            <div className="uae-map-overlay-badge">
-              <span className="overlay-pin-icon"><MapPin size={18} /></span>
+            <div className="uae-map-header-badges">
+              <div className="uae-live-badge">
+                <span className="uae-pulse-dot" aria-hidden="true" />
+                <span>Live UAE Advisory Hubs</span>
+              </div>
+              <div className="uae-fta-badge">
+                <ShieldCheck size={13} />
+                <span>FTA Registered Tax Agency</span>
+              </div>
+            </div>
+
+            <div className="uae-map-image-wrapper">
+              <img
+                src="/images/uae-presence-map-new.jpg"
+                alt="Acetrix 3D UAE Presence Map - Dubai, Abu Dhabi, Sharjah & India"
+                className="uae-map-image"
+                loading="lazy"
+              />
+              <div className="uae-map-gradient-overlay" />
+            </div>
+
+            {/* Active Location Detail Callout */}
+            <div className="uae-map-active-callout">
+              <div className="callout-indicator">
+                <MapPin size={16} />
+                <span>{locations[activeLocation].flag} {locations[activeLocation].name} Hub — {locations[activeLocation].role}</span>
+              </div>
+              <p className="callout-desc">
+                <strong>{locations[activeLocation].jurisdiction}:</strong> {locations[activeLocation].desc}
+              </p>
+            </div>
+          </div>
+
+          {/* Value Stats Strip */}
+          <div className="uae-network-stats">
+            <div className="uae-stat-pill">
+              <span className="stat-number">7</span>
               <div>
-                <strong>Regional Footprint</strong>
-                <small>Dubai • Abu Dhabi • Sharjah • India</small>
+                <strong>Emirates Coverage</strong>
+                <small>Mainland & Freezones</small>
+              </div>
+            </div>
+            <div className="uae-stat-pill">
+              <span className="stat-number">100%</span>
+              <div>
+                <strong>FTA & IFRS Compliant</strong>
+                <small>Certified Practice</small>
+              </div>
+            </div>
+            <div className="uae-stat-pill">
+              <span className="stat-number">Dual-Shore</span>
+              <div>
+                <strong>UAE + India Delivery</strong>
+                <small>Local Advisory & Scale</small>
               </div>
             </div>
           </div>
@@ -291,6 +391,217 @@ function UAEPresence() {
               <Phone size={15} />
               <span>+971 4 123 4567</span>
             </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function LeadershipVision() {
+  return (
+    <section className="section leadership-section" id="about">
+      {/* Ambient Visual Glows & Dot Matrix */}
+      <div className="leadership-glow leadership-glow-1" aria-hidden="true" />
+      <div className="leadership-glow leadership-glow-2" aria-hidden="true" />
+      <div className="leadership-grid-pattern" aria-hidden="true" />
+
+      <div className="container relative z-10">
+        {/* Section Header */}
+        <div className="leadership-header">
+          <div className="leadership-pill-eyebrow">
+            <Sparkles size={14} />
+            <span>Acetrix Leadership & Corporate Vision</span>
+          </div>
+          <h2 className="leadership-title">
+            A Vision for Financial Clarity, Integrity & Sustainable Growth
+          </h2>
+          <p className="leadership-subtitle">
+            Founded on chartered accounting precision and driven by modern advisory agility, Acetrix bridges on-the-ground UAE regulatory authority with seamless cross-border delivery.
+          </p>
+        </div>
+
+        {/* Two-Column Showcase: Executive Message + Acetrix Corporate Profile */}
+        <div className="leadership-showcase-grid">
+          {/* Column 1: Executive / CEO Message */}
+          <div className="leadership-message-card">
+            <div className="exec-badge-wrap">
+              <span className="exec-quote-pill">
+                <Quote size={13} />
+                <span>Executive Leadership Message</span>
+              </span>
+              <span className="exec-since-badge">Est. In UAE & India</span>
+            </div>
+
+            <h3 className="exec-quote-headline">
+              “True financial advisory must be more than compliance—it must be the compass that drives confident enterprise growth.”
+            </h3>
+
+            <div className="exec-body-content">
+              <p>
+                When we established Acetrix, our journey began with a clear purpose: to bridge the gap between traditional retrospective bookkeeping and forward-looking, high-precision financial stewardship.
+              </p>
+              <p>
+                With roots in corporate finance and decades of collective experience across Big 4 accounting and banking advisory, we recognized the growing regulatory complexity modern businesses face in the UAE. Navigating the 9% UAE Corporate Tax, FTA VAT mandates, and multi-jurisdiction freezone audits in DIFC, ADGM, and DMCC requires more than standard data entry—it demands trusted, strategic financial leadership.
+              </p>
+              <p>
+                Today, that vision has evolved into an agile cross-border practice operating across Dubai, Abu Dhabi, Sharjah, and our specialized delivery center in India. We empower businesses to operate with 100% regulatory confidence, streamlined cash flows, and institutional financial clarity.
+              </p>
+            </div>
+
+            <div className="exec-signoff">
+              <div className="exec-avatar-crest" aria-hidden="true">
+                <span>AX</span>
+              </div>
+              <div className="exec-details">
+                <strong>Executive Leadership & Partners</strong>
+                <small>Acetrix Accounting & Financial Advisory LLC</small>
+                <div className="exec-credentials-tags">
+                  <span>FCA</span>
+                  <span>FTA Certified Tax Specialists</span>
+                  <span>IFRS Advisors</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Column 2: Acetrix Corporate Profile & Impact Showcase (In place of personal photo) */}
+          <div className="acetrix-details-card">
+            <div className="profile-card-top">
+              <div className="profile-title-group">
+                <span className="profile-icon-badge">
+                  <Building2 size={22} />
+                </span>
+                <div>
+                  <h3>Acetrix At A Glance</h3>
+                  <p>Licensed Accounting, Corporate Tax & Audit Practice</p>
+                </div>
+              </div>
+              <span className="fta-verified-pill">
+                <ShieldCheck size={14} />
+                <span>FTA Registered</span>
+              </span>
+            </div>
+
+            {/* Core Competencies 2x2 Grid */}
+            <div className="acetrix-pillars-grid">
+              <div className="pillar-item">
+                <span className="pillar-bullet" aria-hidden="true" />
+                <div>
+                  <strong>FTA Tax & VAT Authority</strong>
+                  <p>Full-cycle UAE Corporate Tax (9%), VAT returns, registrations & clarification filings.</p>
+                </div>
+              </div>
+              <div className="pillar-item">
+                <span className="pillar-bullet" aria-hidden="true" />
+                <div>
+                  <strong>Dual-Shore Delivery Agility</strong>
+                  <p>On-the-ground UAE partner advisory backed by our high-capacity India offshore center.</p>
+                </div>
+              </div>
+              <div className="pillar-item">
+                <span className="pillar-bullet" aria-hidden="true" />
+                <div>
+                  <strong>Freezone & Mainland Mastery</strong>
+                  <p>Expert compliance for DMCC, DIFC, ADGM, DAFZA, SAIF Zone & UAE Mainland entities.</p>
+                </div>
+              </div>
+              <div className="pillar-item">
+                <span className="pillar-bullet" aria-hidden="true" />
+                <div>
+                  <strong>IFRS Statutory Auditing</strong>
+                  <p>Auditor-ready balance sheets, P&L statements, and board-level management reporting.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Metrics Strip */}
+            <div className="acetrix-profile-stats">
+              <div className="profile-stat">
+                <strong>500+</strong>
+                <small>Enterprises Stewarded</small>
+              </div>
+              <div className="profile-stat">
+                <strong>99.8%</strong>
+                <small>On-Time Filing Rate</small>
+              </div>
+              <div className="profile-stat">
+                <strong>4 Hubs</strong>
+                <small>Dubai • Abu Dhabi • Sharjah • India</small>
+              </div>
+            </div>
+
+            <div className="profile-card-footer">
+              <p>
+                <Sparkles size={14} /> Empowering startups, growing SMEs, and MNCs across the UAE & GCC.
+              </p>
+              <a href="#contact" className="profile-action-link">
+                Consult Our Advisory Team <ArrowRight size={14} />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Three Strategic Foundation Cards: Mission, Vision, Goals */}
+        <div className="strategic-foundation-grid">
+          {/* Mission Card */}
+          <div className="foundation-card foundation-mission">
+            <div className="foundation-card-header">
+              <span className="foundation-icon-wrap mission-icon">
+                <Target size={22} />
+              </span>
+              <span className="foundation-pill">Strategic Purpose</span>
+            </div>
+            <h3>Our Mission</h3>
+            <p>
+              To empower businesses across the UAE and global markets with uncompromising accounting integrity, proactive tax compliance, and strategic financial insights that eliminate regulatory risk and accelerate sustainable profitability.
+            </p>
+            <ul className="foundation-list">
+              <li><Check size={14} /> Flawless FTA Tax & VAT Compliance</li>
+              <li><Check size={14} /> Transparent Real-Time Financial Reporting</li>
+              <li><Check size={14} /> Agile Dual-Shore Books Clearance</li>
+            </ul>
+            <div className="foundation-bar mission-bar" aria-hidden="true" />
+          </div>
+
+          {/* Vision Card */}
+          <div className="foundation-card foundation-vision">
+            <div className="foundation-card-header">
+              <span className="foundation-icon-wrap vision-icon">
+                <Eye size={22} />
+              </span>
+              <span className="foundation-pill">Future Horizon</span>
+            </div>
+            <h3>Our Vision</h3>
+            <p>
+              To stand as the Middle East’s benchmark accounting and financial advisory practice, renowned for combining on-the-ground regulatory mastery with innovative dual-shore delivery that elevates our clients' enterprise value.
+            </p>
+            <ul className="foundation-list">
+              <li><Check size={14} /> Regional Benchmark in Corporate Tax Advisory</li>
+              <li><Check size={14} /> Digital-First Automated Financial Infrastructure</li>
+              <li><Check size={14} /> Trusted Cross-Border Financial Partner</li>
+            </ul>
+            <div className="foundation-bar vision-bar" aria-hidden="true" />
+          </div>
+
+          {/* Goals Card */}
+          <div className="foundation-card foundation-goals">
+            <div className="foundation-card-header">
+              <span className="foundation-icon-wrap goals-icon">
+                <Rocket size={22} />
+              </span>
+              <span className="foundation-pill">Action Commitments</span>
+            </div>
+            <h3>Our Goals</h3>
+            <p>
+              To deliver measurable capital efficiency, safeguard enterprises against penalties, cultivate enduring client partnerships, and provide scalable financial frameworks that support growth at every stage.
+            </p>
+            <ul className="foundation-list">
+              <li><Check size={14} /> 100% Zero-Penalty Regulatory Track Record</li>
+              <li><Check size={14} /> Rapid 24/7 Turnaround on Financial Books</li>
+              <li><Check size={14} /> Dedicated CFO-Level Growth Advisory</li>
+            </ul>
+            <div className="foundation-bar goals-bar" aria-hidden="true" />
           </div>
         </div>
       </div>
@@ -343,7 +654,7 @@ function WhyAcetrix() {
     ['04', 'A Business-Focused Approach', 'Practical accounting support that helps you focus on what matters most.'],
   ]
   return (
-    <section className="why-section" id="about">
+    <section className="why-section" id="why-us">
       <div className="container why-grid">
         <div className="why-copy"><p className="eyebrow eyebrow-light">Why Acetrix</p><h2>More Than Accounting.<br />A Clearer View of Your Finances.</h2><p>We combine dependable accounting expertise with a practical understanding of how businesses operate, so your numbers become a tool for confident decisions.</p><a className="button button-light" href="#contact">Learn More About Us <ArrowRight size={15} /></a></div>
         <div className="why-features">{items.map(([number, title, detail], index) => <div className="why-feature" key={number}><span className="why-feature-icon">{index === 0 ? <ShieldCheck size={20} /> : index === 1 ? <Sparkles size={20} /> : index === 2 ? <FileBarChart size={20} /> : <TrendingUp size={20} />}</span><span><small>{number}.</small><strong>{title}</strong><p>{detail}</p></span></div>)}</div>
@@ -499,6 +810,7 @@ export default function App() {
         <Hero />
         <TrustStrip />
         <UAEPresence />
+        <LeadershipVision />
         <Services />
         <WhyAcetrix />
         <Industries />
