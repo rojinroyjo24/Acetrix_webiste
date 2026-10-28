@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import {
   ArrowRight,
   ArrowUpRight,
@@ -37,9 +37,61 @@ import {
 
 const imageBase = 'https://images.unsplash.com'
 
+const serviceCategories = [
+  {
+    id: 'accounting',
+    name: 'Accounting',
+    items: [
+      'Account Reconciliation Services',
+      'Accounting Outsourcing Services',
+      'Updating of Backlog Accounts Service',
+      'Part Time Accounting Services',
+      'Accounting System Analysis',
+      'Accounting And Financial Reporting Services',
+      'Bookkeeping Services',
+      'Regular Accounting Services- Data Entry',
+    ],
+  },
+  {
+    id: 'auditing',
+    name: 'Auditing & Assurance',
+    items: [
+      'Organisational Restructuring Services',
+      'Internal Audit Services',
+      'External Audit Services',
+      'Business Strategy Consultants Services',
+      'Financial Restructuring Service',
+      'Internal Control Procedure Services',
+    ],
+  },
+  {
+    id: 'vat',
+    name: 'VAT',
+    items: [
+      'VAT Consultancy Services',
+      'VAT Registration Services',
+      'VAT Deregistration Services',
+      'VAT Accounting Services',
+      'VAT Return Filing Services',
+      'VAT Impact On Company Profit',
+      'VAT Impact On Company Cash Flow',
+      'Excise Tax Advisory Services',
+      'Tax Consultation Services',
+      'Corporate Tax UAE',
+    ],
+  },
+  {
+    id: 'software',
+    name: 'Accounting Software',
+    items: [
+      'Accounting Software Consultancy Services',
+      'Training On Different Accounting Software',
+    ],
+  },
+]
+
 const navItems = [
   { label: 'Home', href: '#home' },
-  // { label: 'UAE Presence', href: '#uae-presence' },
   { label: 'About Us', href: '#about' },
   { label: 'Services', href: '#services' },
   { label: 'Industries', href: '#industries' },
@@ -50,6 +102,8 @@ const navItems = [
 const footerQuickLinks = [
   { label: 'Home', href: '#home' },
   { label: 'About Us', href: '#about' },
+  { label: 'Services', href: '#services' },
+  { label: 'Approved Freezones', href: '#freezones' },
   { label: 'Industries', href: '#industries' },
   { label: 'Insights', href: '#insights' },
   { label: 'Contact Us', href: '#contact' },
@@ -148,24 +202,181 @@ function SectionIntro({ eyebrow, title, light = false }) {
 }
 
 function Header() {
-  const [open, setOpen] = useState(false)
-  const close = () => setOpen(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false)
+  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false)
+  const [activeCategoryIndex, setActiveCategoryIndex] = useState(0)
+  const dropdownTimeoutRef = useRef(null)
+
+  const handleDropdownEnter = () => {
+    if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current)
+    setServicesDropdownOpen(true)
+  }
+
+  const handleDropdownLeave = () => {
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setServicesDropdownOpen(false)
+    }, 180)
+  }
+
+  const closeMobile = () => setMobileMenuOpen(false)
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setServicesDropdownOpen(false)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
   return (
     <header className="site-header">
       <div className="container nav-wrap">
         <Logo />
         <nav className="desktop-nav" aria-label="Primary navigation">
-          {navItems.map((item, index) => <a className={index === 0 ? 'active' : ''} key={item.href} href={item.href}>{item.label}</a>)}
+          {navItems.map((item, index) => {
+            if (item.label === 'Services') {
+              return (
+                <div
+                  key={item.label}
+                  className="nav-dropdown-item"
+                  onMouseEnter={handleDropdownEnter}
+                  onMouseLeave={handleDropdownLeave}
+                >
+                  <a
+                    href="#services"
+                    className={`nav-dropdown-trigger ${servicesDropdownOpen ? 'open' : ''}`}
+                    aria-expanded={servicesDropdownOpen}
+                    aria-haspopup="true"
+                  >
+                    <span>Services</span>
+                    <ChevronDown size={14} className={`nav-chevron ${servicesDropdownOpen ? 'rotate' : ''}`} />
+                  </a>
+
+                  {/* Two-Column Mega Dropdown Panel */}
+                  {servicesDropdownOpen && (
+                    <div className="services-mega-dropdown" role="menu" aria-label="Services Menu">
+                      <div className="dropdown-arrow-pointer" aria-hidden="true" />
+                      <div className="services-dropdown-grid">
+                        {/* Left Category Tabs Column */}
+                        <div className="services-categories-col">
+                          {serviceCategories.map((cat, idx) => (
+                            <button
+                              key={cat.id}
+                              type="button"
+                              role="menuitem"
+                              className={`service-cat-tab ${activeCategoryIndex === idx ? 'active' : ''}`}
+                              onMouseEnter={() => setActiveCategoryIndex(idx)}
+                              onClick={() => setActiveCategoryIndex(idx)}
+                            >
+                              <span>{cat.name}</span>
+                              <ChevronRight size={14} className="cat-arrow" />
+                            </button>
+                          ))}
+                        </div>
+
+                        {/* Right Sub-Services Column */}
+                        <div className="services-subitems-col">
+                          <div className="subitems-header">
+                            <span className="subitems-category-name">
+                              {serviceCategories[activeCategoryIndex].name}
+                            </span>
+                            <span className="subitems-count">
+                              {serviceCategories[activeCategoryIndex].items.length} Services
+                            </span>
+                          </div>
+                          <div className="subitems-list">
+                            {serviceCategories[activeCategoryIndex].items.map((subItem) => (
+                              <a
+                                key={subItem}
+                                href="#services"
+                                className="service-subitem-link"
+                                onClick={() => setServicesDropdownOpen(false)}
+                              >
+                                <span>{subItem}</span>
+                                <ArrowRight size={13} className="subitem-arrow" />
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )
+            }
+            return (
+              <a className={index === 0 ? 'active' : ''} key={item.href} href={item.href}>
+                {item.label}
+              </a>
+            )
+          })}
         </nav>
         <a className="button button-primary nav-cta" href="#contact">Book a Consultation <ArrowRight size={15} /></a>
-        <button className="menu-toggle" type="button" onClick={() => setOpen(!open)} aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open}>
-          {open ? <X size={22} /> : <Menu size={22} />}
+        <button
+          className="menu-toggle"
+          type="button"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={mobileMenuOpen}
+        >
+          {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
-      {open && <nav className="mobile-nav" aria-label="Mobile navigation">
-        {navItems.map(item => <a key={item.href} href={item.href} onClick={close}>{item.label}</a>)}
-        <a className="button button-primary" href="#contact" onClick={close}>Book a Consultation <ArrowRight size={15} /></a>
-      </nav>}
+
+      {/* Mobile Navigation */}
+      {mobileMenuOpen && (
+        <nav className="mobile-nav" aria-label="Mobile navigation">
+          {navItems.map((item) => {
+            if (item.label === 'Services') {
+              return (
+                <div key={item.label} className="mobile-services-wrapper">
+                  <button
+                    type="button"
+                    className="mobile-services-toggle"
+                    onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                    aria-expanded={mobileServicesOpen}
+                  >
+                    <span>Services</span>
+                    <ChevronDown size={16} className={`dropdown-chevron ${mobileServicesOpen ? 'rotate' : ''}`} />
+                  </button>
+                  {mobileServicesOpen && (
+                    <div className="mobile-services-accordion">
+                      {serviceCategories.map((cat) => (
+                        <div key={cat.id} className="mobile-category-group">
+                          <strong className="mobile-category-title">{cat.name}</strong>
+                          <div className="mobile-category-subitems">
+                            {cat.items.map((subItem) => (
+                              <a
+                                key={subItem}
+                                href="#services"
+                                className="mobile-subitem-link"
+                                onClick={closeMobile}
+                              >
+                                {subItem}
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )
+            }
+            return (
+              <a key={item.href} href={item.href} onClick={closeMobile}>
+                {item.label}
+              </a>
+            )
+          })}
+          <a className="button button-primary" href="#contact" onClick={closeMobile}>
+            Book a Consultation <ArrowRight size={15} />
+          </a>
+        </nav>
+      )}
     </header>
   )
 }
@@ -391,6 +602,71 @@ function UAEPresence() {
               <Phone size={15} />
               <span>+971 4 123 4567</span>
             </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function ApprovedFreezones() {
+  const freezoneLogos = [
+    { name: 'UAQ Free Trade Zone', file: '/images/uaq.jpg', jurisdiction: 'Umm Al Quwain' },
+    { name: 'Jebel Ali Free Zone (Jafza)', file: '/images/jafza.jpg', jurisdiction: 'Dubai' },
+    { name: 'Dubai Airport Freezone (DAFZA)', file: '/images/dafza.jpg', jurisdiction: 'Dubai' },
+    { name: 'Dubai Studio City', file: '/images/studio-city.jpg', jurisdiction: 'Dubai' },
+    { name: 'International Free Zone Authority (IFZA)', file: '/images/IFZA.jpg', jurisdiction: 'Dubai' },
+    { name: 'Abu Dhabi Global Market (ADGM)', file: '/images/abu-dhabi-global-market.jpg', jurisdiction: 'Abu Dhabi' },
+    { name: 'Abu Dhabi Ports & Freezones', file: '/images/abudhabi-ports.jpg', jurisdiction: 'Abu Dhabi' },
+  ]
+
+  return (
+    <section className="section freezones-section" id="freezones">
+      <div className="container text-center">
+        <div className="freezones-header">
+          <div className="freezones-pill-eyebrow">
+            <ShieldCheck size={14} />
+            <span>Approved & Accredited Audit Practice</span>
+          </div>
+          <h2 className="freezones-title">
+            Approved Auditors in Dubai & All Major Freezones in UAE
+          </h2>
+          <p className="freezones-subtitle">
+            Backed by UAE FTA certification and approved by key government authorities in UAE and major banks, Acetrix is a trusted auditing firm delivering audits with integrity, precision, and complete regulatory compliance.
+          </p>
+        </div>
+
+        {/* Logos Showcase Ribbon / Grid */}
+        <div className="freezones-logo-grid" aria-label="Approved Freezone and Authority Logos">
+          {freezoneLogos.map((item) => (
+            <div className="freezone-logo-card" key={item.name} title={`${item.name} (${item.jurisdiction})`}>
+              <img
+                src={item.file}
+                alt={item.name}
+                className="freezone-logo-img"
+                loading="lazy"
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Accreditation Trust Badges */}
+        <div className="freezones-trust-pills">
+          <div className="fz-trust-pill">
+            <Check size={14} />
+            <span>FTA Certified Tax Agency</span>
+          </div>
+          <div className="fz-trust-pill">
+            <Check size={14} />
+            <span>Approved by Tier-1 UAE Banks</span>
+          </div>
+          <div className="fz-trust-pill">
+            <Check size={14} />
+            <span>Mainland & Freezone Jurisdiction</span>
+          </div>
+          <div className="fz-trust-pill">
+            <Check size={14} />
+            <span>IFRS-Compliant Statutory Reporting</span>
           </div>
         </div>
       </div>
@@ -810,6 +1086,7 @@ export default function App() {
         <Hero />
         <TrustStrip />
         <UAEPresence />
+        <ApprovedFreezones />
         <LeadershipVision />
         <Services />
         <WhyAcetrix />
