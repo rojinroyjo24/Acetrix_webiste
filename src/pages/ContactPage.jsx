@@ -40,7 +40,7 @@ export default function ContactPage({ onNavigate }) {
       name: 'Dubai Flagship Office',
       flag: '🇦🇪',
       address: 'Level 18, Prime Business Center, Business Bay, Dubai, UAE',
-      phone: '+971 4 123 4567',
+      phone: '+971 50 653 5070',
       email: 'dubai@acetrix.ae',
       hours: 'Mon - Fri: 8:30 AM - 6:00 PM',
       status: 'Open Now',
@@ -49,7 +49,7 @@ export default function ContactPage({ onNavigate }) {
       name: 'Abu Dhabi Capital Office',
       flag: '🇦🇪',
       address: 'Tower 2, Al Maryah Financial Quarter, Al Maryah Island, Abu Dhabi, UAE',
-      phone: '+971 2 987 6543',
+      phone: '+971 50 653 5070',
       email: 'abudhabi@acetrix.ae',
       hours: 'Mon - Fri: 8:30 AM - 6:00 PM',
       status: 'Open Now',
@@ -58,19 +58,19 @@ export default function ContactPage({ onNavigate }) {
       name: 'Sharjah Hub',
       flag: '🇦🇪',
       address: 'Suite 405, Executive Business Tower, Al Majaz, Sharjah, UAE',
-      phone: '+971 6 543 2109',
+      phone: '+971 50 653 5070',
       email: 'sharjah@acetrix.ae',
       hours: 'Mon - Fri: 8:30 AM - 6:00 PM',
       status: 'Open Now',
     },
     {
-      name: 'India Global Delivery Center',
+      name: 'India Office & Delivery Center',
       flag: '🇮🇳',
-      address: 'Infopark Financial Corridor, Phase 2, Kochi & Bengaluru, India',
-      phone: '+91 484 290 1234',
+      address: '294, Baba Home Communication, Anand Nagar, Netivali, Kalyan Shil Road, Opp. Metro Mall, Kalyan, Thane, Maharashtra - 421306, India',
+      phone: '+91 77388 35070',
       email: 'delivery@acetrix.ae',
-      hours: '24/7 Operations Coverage',
-      status: '24/7 Live Coverage',
+      hours: 'Mon - Sat: 9:00 AM - 6:30 PM (IST)',
+      status: 'Operations Center',
     },
   ]
 
@@ -121,12 +121,12 @@ export default function ContactPage({ onNavigate }) {
           </p>
 
           <div className="contact-quick-pills">
-            <a href="tel:+97141234567" className="quick-pill">
+            <a href="tel:+971506535070" className="quick-pill">
               <Phone size={14} />
-              <span>Direct Phone: +971 4 123 4567</span>
+              <span>Direct Phone: +971 50 653 5070</span>
             </a>
             <a
-              href="https://wa.me/97141234567"
+              href="https://wa.me/971506535070"
               target="_blank"
               rel="noopener noreferrer"
               className="quick-pill whatsapp"
@@ -188,7 +188,7 @@ export default function ContactPage({ onNavigate }) {
               <AlertCircle size={20} className="alert-icon" />
               <div>
                 <strong>Urgent FTA Regulatory Deadline?</strong>
-                <p>If you have an impending VAT return, Corporate Tax registration date, or audit report due within 48 hours, call our rapid response hotline directly at <strong>+971 4 123 4567</strong>.</p>
+                <p>If you have an impending VAT return, Corporate Tax registration date, or audit report due within 48 hours, call our rapid response hotline directly at <strong>+971 50 653 5070 (UAE)</strong> or <strong>+91 77388 35070 (India)</strong>.</p>
               </div>
             </div>
           </div>

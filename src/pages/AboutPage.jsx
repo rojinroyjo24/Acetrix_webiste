@@ -395,7 +395,7 @@ export default function AboutPage({ onNavigate }) {
               Book Advisory Consultation <ArrowRight size={16} />
             </a>
             <a
-              href="https://wa.me/97141234567"
+              href="https://wa.me/971506535070"
               target="_blank"
               rel="noopener noreferrer"
               className="button button-outline"
