@@ -175,6 +175,16 @@ export default function ServicesPage({ onNavigate, initialCategory = 'accounting
           desc: 'Final annual Corporate Tax calculation, book-to-tax adjustments, loss carry-forward tracking, foreign tax credit calculations, and timely submission on the FTA EmaraTax digital platform.',
           deliverables: ['Annual Corporate Tax computations', 'Tax return filing receipts', 'Deferred tax asset/liability register'],
         },
+        {
+          title: 'VAT Consultancy & Advisory Services',
+          desc: 'Specialized VAT technical guidance on complex commercial transactions, designated zone goods movements, zero-rated export validations, and deemed supply treatments across UAE mainland and freezones.',
+          deliverables: ['VAT impact assessment reports', 'Cross-border supply chain memos', 'Customs declaration reconciliation'],
+        },
+        {
+          title: 'VAT Deregistration & Account Closure',
+          desc: 'Structured assistance for entities eligible for or requiring mandatory VAT deregistration due to business cessation, restructuring, or turnover falling below the statutory threshold within mandated FTA timeframes.',
+          deliverables: ['Turnover threshold evaluation', 'FTA deregistration application filing', 'Final tax return & clearance certificate'],
+        },
       ],
     },
     {

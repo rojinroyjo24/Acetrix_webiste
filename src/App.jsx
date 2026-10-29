@@ -751,7 +751,7 @@ function Hero({ onNavigate }) {
           </h1>
 
           <p className="hero-body">
-            Acetrix delivers institutional-grade accounting, proactive UAE FTA tax compliance, and boardroom financial clarity for ambitious enterprises across the UAE and global corridors.
+            Chartered accounting, proactive UAE FTA tax compliance, and automated workflows designed to give your enterprise complete financial clarity.
           </p>
 
           <div className="hero-actions">
@@ -977,7 +977,15 @@ function UAEPresence() {
           </div>
 
           <div className="uae-actions">
-            <a className="button button-primary" href="#contact">
+            <a
+              className="button button-primary"
+              href="#contact"
+              onClick={(e) => {
+                e.preventDefault()
+                const el = document.getElementById('contact')
+                if (el) el.scrollIntoView({ behavior: 'smooth' })
+              }}
+            >
               Schedule UAE Consultation <ArrowRight size={15} />
             </a>
             <a className="button button-secondary uae-call-btn" href="tel:+971506535070">
@@ -1193,7 +1201,15 @@ function LeadershipVision() {
               <p>
                 <Sparkles size={14} /> Empowering startups, growing SMEs, and MNCs across the UAE & GCC.
               </p>
-              <a href="#contact" className="profile-action-link">
+              <a
+                href="#contact"
+                className="profile-action-link"
+                onClick={(e) => {
+                  e.preventDefault()
+                  const el = document.getElementById('contact')
+                  if (el) el.scrollIntoView({ behavior: 'smooth' })
+                }}
+              >
                 Consult Our Advisory Team <ArrowRight size={14} />
               </a>
             </div>
@@ -1361,7 +1377,7 @@ function Services({ onNavigate }) {
   )
 }
 
-function WhyAcetrix() {
+function WhyAcetrix({ onNavigate }) {
   const items = [
     ['01', 'Accuracy and Attention to Detail', 'Organized accounting processes designed to support accurate and consistent records.'],
     ['02', 'Flexible Service Options', 'Accounting support tailored to different operational needs and business stages.'],
@@ -1371,7 +1387,7 @@ function WhyAcetrix() {
   return (
     <section className="why-section" id="why-us">
       <div className="container why-grid">
-        <div className="why-copy"><p className="eyebrow eyebrow-light">Why Acetrix</p><h2>More Than Accounting.<br />A Clearer View of Your Finances.</h2><p>We combine dependable accounting expertise with a practical understanding of how businesses operate, so your numbers become a tool for confident decisions.</p><a className="button button-light" href="#contact">Learn More About Us <ArrowRight size={15} /></a></div>
+        <div className="why-copy"><p className="eyebrow eyebrow-light">Why Acetrix</p><h2>More Than Accounting.<br />A Clearer View of Your Finances.</h2><p>We combine dependable accounting expertise with a practical understanding of how businesses operate, so your numbers become a tool for confident decisions.</p><a className="button button-light" href="#/about" onClick={(e) => { if (onNavigate) { e.preventDefault(); onNavigate('about') } }}>Learn More About Us <ArrowRight size={15} /></a></div>
         <div className="why-features">{items.map(([number, title, detail], index) => <div className="why-feature" key={number}><span className="why-feature-icon">{index === 0 ? <ShieldCheck size={20} /> : index === 1 ? <Sparkles size={20} /> : index === 2 ? <FileBarChart size={20} /> : <TrendingUp size={20} />}</span><span><small>{number}.</small><strong>{title}</strong><p>{detail}</p></span></div>)}</div>
       </div>
       <div className="why-building" aria-hidden="true"><div /></div>
@@ -1646,10 +1662,10 @@ function Footer({ onNavigate }) {
             AcEtrix Accounting & Automation Solutions helps businesses simplify accounting, automate workflows, ensure UAE FTA tax compliance, improve financial visibility, and manage regional operations with confidence.
           </p>
           <div className="socials" aria-label="Social media links">
-            <a href="#contact" aria-label="LinkedIn" className="social-link">in</a>
-            <a href="#contact" aria-label="Facebook" className="social-link">f</a>
-            <a href="#contact" aria-label="Instagram" className="social-link">◎</a>
-            <a href="#contact" aria-label="YouTube" className="social-link">▶</a>
+            <a href="#/contact" onClick={(e) => { if (onNavigate) { e.preventDefault(); onNavigate('contact') } }} aria-label="LinkedIn" className="social-link">in</a>
+            <a href="#/contact" onClick={(e) => { if (onNavigate) { e.preventDefault(); onNavigate('contact') } }} aria-label="Facebook" className="social-link">f</a>
+            <a href="#/contact" onClick={(e) => { if (onNavigate) { e.preventDefault(); onNavigate('contact') } }} aria-label="Instagram" className="social-link">◎</a>
+            <a href="#/contact" onClick={(e) => { if (onNavigate) { e.preventDefault(); onNavigate('contact') } }} aria-label="YouTube" className="social-link">▶</a>
           </div>
         </div>
 
@@ -1748,9 +1764,29 @@ function Footer({ onNavigate }) {
             </a>
           </span>
           <div className="legal-links">
-            <a href="#contact">Privacy Policy</a>
+            <a
+              href="#/contact"
+              onClick={(e) => {
+                if (onNavigate) {
+                  e.preventDefault()
+                  onNavigate('contact')
+                }
+              }}
+            >
+              Privacy Policy
+            </a>
             <span className="legal-dot" aria-hidden="true">•</span>
-            <a href="#contact">Terms & Conditions</a>
+            <a
+              href="#/contact"
+              onClick={(e) => {
+                if (onNavigate) {
+                  e.preventDefault()
+                  onNavigate('contact')
+                }
+              }}
+            >
+              Terms & Conditions
+            </a>
           </div>
         </div>
       </div>
@@ -1760,14 +1796,14 @@ function Footer({ onNavigate }) {
 
 function getRouteFromHash() {
   const hash = window.location.hash.toLowerCase()
-  if (hash.includes('about')) return { route: 'about', category: null }
-  if (hash.includes('service')) {
+  if (hash.startsWith('#/about')) return { route: 'about', category: null }
+  if (hash.startsWith('#/service')) {
     const match = hash.match(/cat=([a-z\-]+)/)
     return { route: 'services', category: match ? match[1] : 'accounting' }
   }
-  if (hash.includes('location')) return { route: 'locations', category: null }
-  if (hash.includes('industr')) return { route: 'industries', category: null }
-  if (hash.includes('contact')) return { route: 'contact', category: null }
+  if (hash.startsWith('#/location')) return { route: 'locations', category: null }
+  if (hash.startsWith('#/industr')) return { route: 'industries', category: null }
+  if (hash.startsWith('#/contact')) return { route: 'contact', category: null }
   return { route: 'home', category: null }
 }
 
@@ -1787,7 +1823,7 @@ export default function App() {
             window.scrollTo({ top: 0, behavior: 'smooth' })
           }
         }, 80)
-      } else {
+      } else if (window.location.hash.startsWith('#/')) {
         window.scrollTo({ top: 0, behavior: 'smooth' })
       }
     }
@@ -1838,7 +1874,7 @@ export default function App() {
             <ApprovedFreezones />
             <LeadershipVision />
             <Services onNavigate={navigateTo} />
-            <WhyAcetrix />
+            <WhyAcetrix onNavigate={navigateTo} />
             <Industries onNavigate={navigateTo} />
             <Process onNavigate={navigateTo} />
             <Testimonials />
